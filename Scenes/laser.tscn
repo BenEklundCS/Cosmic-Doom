@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://dwkcy06kv4fgm"]
+
+[ext_resource type="Script" uid="uid://brk37rlvt4k3" path="res://Scripts/Laser.cs" id="1_mou6w"]
+[ext_resource type="Shader" uid="uid://dwsnd8j2pnin5" path="res://Shaders/laser.gdshader" id="1_r1bh0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r1bh0"]
+render_priority = 0
+shader = ExtResource("1_r1bh0")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mou6w"]
+material = SubResource("ShaderMaterial_r1bh0")
+top_radius = 0.01
+bottom_radius = 0.01
+height = 10.0
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_mou6w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.361206, 4.87525, -0.141162)
+mesh = SubResource("CylinderMesh_mou6w")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true

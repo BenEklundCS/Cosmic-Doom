@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://gjf0tmrkdcc1"]
+
+[ext_resource type="Script" uid="uid://re314g34bsdg" path="res://Scripts/PlayerWrapper.cs" id="1_cicl7"]
+[ext_resource type="PackedScene" uid="uid://dbvjtdbkcf4fc" path="res://Scenes/basic_fps_player.tscn" id="2_kr0bj"]
+
+[node name="Node" type="Node" node_paths=PackedStringArray("WrappedNode")]
+script = ExtResource("1_cicl7")
+WrappedNode = NodePath("Basic FPS Player")
+
+[node name="Basic FPS Player" parent="." instance=ExtResource("2_kr0bj")]
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
