@@ -17,7 +17,7 @@ height = 10.0
 script = ExtResource("1_mou6w")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.361206, 4.87525, -0.141162)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -5)
 mesh = SubResource("CylinderMesh_mou6w")
 
 [node name="Timer" type="Timer" parent="."]

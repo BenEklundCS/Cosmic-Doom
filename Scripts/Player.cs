@@ -51,16 +51,10 @@ public partial class Player : CharacterBody3D {
         
         Callable.From(() => {
             GetTree().Root.AddChild(laser);
-            var start = _camera.GlobalPosition;
-            var dir = -_camera.GlobalTransform.Basis.Z; 
-
-            laser.GlobalPosition = start;
-        
-            var y = dir.Normalized();
-            var x = Vector3.Up.Cross(y).Normalized();
-            var z = y.Cross(x).Normalized();
-
-            laser.GlobalBasis = new Basis(x, y, z);
+            // aligns laser to face player dir, dependent on laser being aligned across -z in its scene with one end at 0,0,0
+            var forward = -_camera.GlobalTransform.Basis.Z;
+            laser.GlobalPosition = _camera.GlobalPosition;
+            laser.LookAt(laser.GlobalPosition + forward, Vector3.Up);
         }).CallDeferred();
     }
 

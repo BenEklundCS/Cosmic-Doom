@@ -10,14 +10,14 @@ config_version=5
 
 [application]
 
-config/name="fps"
+config/name="Cosmic Doom"
 run/main_scene="uid://t5vyclegttms"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [dotnet]
 
-project/assembly_name="fps"
+project/assembly_name="Cosmic Doom"
 
 [editor_plugins]
 
