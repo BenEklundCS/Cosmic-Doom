@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhq5qufg4vqxu"]
+
+[ext_resource type="PackedScene" uid="uid://bysmidth4brdd" path="res://Scenes/Levels/level.tscn" id="1_jqmhs"]
+[ext_resource type="PackedScene" uid="uid://elqd5fnawpft" path="res://Scenes/Objects/hittable_box.tscn" id="2_u3rbo"]
+
+[node name="LevelOne" instance=ExtResource("1_jqmhs")]
+
+[node name="HittableBox" parent="Objects" index="0" instance=ExtResource("2_u3rbo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.16834, 6.24477)
+
+[node name="HittableBox2" parent="Objects" index="1" instance=ExtResource("2_u3rbo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.82683, 1.05853, 6.24477)
+
+[node name="HittableBox3" parent="Objects" index="2" instance=ExtResource("2_u3rbo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.76205, 1.1913, 6.24477)

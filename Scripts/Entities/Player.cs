@@ -1,3 +1,5 @@
+using CosmicDoom.Scripts.Interfaces;
+
 namespace CosmicDoom.Scripts;
 
 using Godot;
@@ -17,13 +19,15 @@ public partial class Player : Character {
     private readonly float _maxPitch = Mathf.DegToRad(85f);
 
     public override void _Ready() {
-        _camera = GetNode<Camera3D>("Camera3D");
+        _camera = GetNode<Camera3D>("Head/Camera3D");
         Input.MouseMode = Input.MouseModeEnum.Visible;
         _gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
+        base._Ready();
     }
 
     public override void _PhysicsProcess(double delta) {
         HandleMovement(delta);
+        base._PhysicsProcess(delta);
     }
 
     public override void _Input(InputEvent @event) {
@@ -43,7 +47,7 @@ public partial class Player : Character {
 
     private void Shoot()
     {
-        var laser = (Node3D)GD.Load<PackedScene>("res://Scenes/Objects/laser.tscn").Instantiate();
+        var laser = (Node3D)Load<PackedScene>("res://Scenes/Objects/laser.tscn").Instantiate();
         
         Callable.From(() => {
             GetTree().Root.AddChild(laser);
@@ -52,7 +56,16 @@ public partial class Player : Character {
             laser.GlobalPosition = _camera.GlobalPosition;
             laser.LookAt(laser.GlobalPosition + forward, Vector3.Up);
         }).CallDeferred();
+        
+        // raycast
+        var collider = Ray.GetCollider();
+        Print(collider);
+        if (collider is IHittable hittable) {
+            hittable.Hit(DAMAGE);
+        }
     }
+
+
 
     private void HandleMovement(double delta) {
         Velocity = new Vector3(
@@ -87,13 +100,13 @@ public partial class Player : Character {
         }
         if (@event is InputEventMouseMotion mouseMotion) {
             RotateY(-mouseMotion.Relative.X * MouseSensitivity);
-            _camera.RotateX(-mouseMotion.Relative.Y * MouseSensitivity);
+            Head.RotateX(-mouseMotion.Relative.Y * MouseSensitivity);
             var clampedX = Math.Clamp(
-                _camera.Rotation.X,
+                Head.Rotation.X,
                 -_maxPitch,
                 _maxPitch
             );
-            _camera.Rotation = new Vector3(clampedX, _camera.Rotation.Y, _camera.Rotation.Z);
+            Head.Rotation = new Vector3(clampedX, Head.Rotation.Y, Head.Rotation.Z);
         }
     }
 }

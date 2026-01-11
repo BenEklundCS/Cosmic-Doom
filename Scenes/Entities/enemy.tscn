@@ -5,3 +5,4 @@
 
 [node name="Enemy" instance=ExtResource("1_o6kgl")]
 script = ExtResource("2_ge2ll")
+HEALTH = 10

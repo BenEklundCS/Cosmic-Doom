@@ -1,36 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://t5vyclegttms"]
+[gd_scene load_steps=5 format=3 uid="uid://t5vyclegttms"]
 
 [ext_resource type="Script" uid="uid://csbrlwrxv12c1" path="res://Scripts/Root.cs" id="1_8pvmw"]
-[ext_resource type="Shader" uid="uid://bxd1wxj31roi4" path="res://Shaders/floor.gdshader" id="2_c3mwy"]
-[ext_resource type="Texture2D" uid="uid://divhpgdjn4ub1" path="res://Assets/Sprites/Walls/wall_texture4.png" id="3_4g5cr"]
 [ext_resource type="PackedScene" uid="uid://bhdhjpb222xe2" path="res://Scenes/debug.tscn" id="3_vnucn"]
 [ext_resource type="PackedScene" uid="uid://dif7wvkvbhwlv" path="res://Scenes/Entities/player.tscn" id="5_4g5cr"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4g5cr"]
-render_priority = 0
-shader = ExtResource("2_c3mwy")
-shader_parameter/floor_texture = ExtResource("3_4g5cr")
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_jyf1o"]
-material = SubResource("ShaderMaterial_4g5cr")
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_vnucn"]
-data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+[ext_resource type="PackedScene" uid="uid://bhq5qufg4vqxu" path="res://Scenes/Levels/level_one.tscn" id="5_ckhy6"]
 
 [node name="Root" type="Node3D"]
 script = ExtResource("1_8pvmw")
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-transform = Transform3D(11.6441, 0, 0, 0, 1, 0, 0, 0, 11.3513, 0, 0, 0)
-mesh = SubResource("PlaneMesh_jyf1o")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(11.6441, 0, 0, 0, 1, 0, 0, 0, 11.3513, 0, 0, 0)
-shape = SubResource("ConcavePolygonShape3D_vnucn")
 
 [node name="Debug" parent="." instance=ExtResource("3_vnucn")]
 DebugPath = NodePath("")
 
 [node name="Player" parent="." instance=ExtResource("5_4g5cr")]
+
+[node name="LevelOne" parent="." instance=ExtResource("5_ckhy6")]

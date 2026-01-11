@@ -6,5 +6,5 @@
 [node name="Player" instance=ExtResource("1_cvnsp")]
 script = ExtResource("2_cvnsp")
 
-[node name="Camera3D" type="Camera3D" parent="." index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+[node name="Camera3D" type="Camera3D" parent="Head" index="1"]
+far = 10000.0
