@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using CosmicDoom.Scripts.Interfaces;
+using CosmicDoom.Scripts.Items;
+using CosmicDoom.Scripts.Registry;
 
 namespace CosmicDoom.Scripts;
 
@@ -18,10 +21,20 @@ public partial class Player : Character {
     private float _gravity;
     private readonly float _maxPitch = Mathf.DegToRad(85f);
 
+    private readonly List<RWeapon> _weaponWheel = new ();
+    private int _weaponIndex = 0;
+    private readonly WeaponType[] _defaultWeapons = new[] {
+        WeaponType.Knife, 
+        WeaponType.PlasmaGun, 
+        WeaponType.Shotgun
+    };
+    private TextureRect _weaponTextureRect;
+
     public override void _Ready() {
         _camera = GetNode<Camera3D>("Head/Camera3D");
         Input.MouseMode = Input.MouseModeEnum.Visible;
         _gravity = (float)ProjectSettings.GetSetting("physics/3d/default_gravity");
+        ReadyWeapons();
         base._Ready();
     }
 
@@ -31,18 +44,22 @@ public partial class Player : Character {
     }
 
     public override void _Input(InputEvent @event) {
-        if (@event.IsActionPressed("ui_cancel")) {
-            Input.MouseMode = Input.MouseModeEnum.Visible;
-        }
-        if (@event.IsActionPressed("click")) {
-            if (Input.MouseMode == Input.MouseModeEnum.Visible) {
-                Input.MouseMode = Input.MouseModeEnum.Captured;
-            }
-            else {
-                Shoot();
-            }
-        }
+        HandleEscape(@event);
+        HandleClick(@event);
+        HandleScroll(@event);
         HandleLook(@event);
+    }
+
+    private void ReadyWeapons() {
+        _weaponTextureRect = GetNode<TextureRect>("UIBar/WeaponTextureRect");
+        foreach (var weaponType in _defaultWeapons) {
+            _weaponWheel.Add(WeaponRegistry.INSTANCE.Get(weaponType));
+        }
+        EquipWeapon(_weaponIndex);
+    }
+
+    private void EquipWeapon(int weaponIndex) {
+        _weaponTextureRect.Texture = _weaponWheel[Mathf.PosMod(weaponIndex, _weaponWheel.Count)].Texture;
     }
 
     private void Shoot()
@@ -64,9 +81,7 @@ public partial class Player : Character {
             hittable.Hit(DAMAGE);
         }
     }
-
-
-
+    
     private void HandleMovement(double delta) {
         Velocity = new Vector3(
             Velocity.X, 
@@ -107,6 +122,36 @@ public partial class Player : Character {
                 _maxPitch
             );
             Head.Rotation = new Vector3(clampedX, Head.Rotation.Y, Head.Rotation.Z);
+        }
+    }
+
+    private void HandleScroll(InputEvent @event) {
+        if (Input.MouseMode != Input.MouseModeEnum.Captured) {
+            return;
+        }
+
+        if (@event.IsActionPressed("weapon_wheel_up")) {
+            EquipWeapon(++_weaponIndex);
+        }
+        else if (@event.IsActionPressed("weapon_wheel_down")) {
+            EquipWeapon(--_weaponIndex);
+        }
+    }
+
+    private void HandleClick(InputEvent @event) {
+        if (@event.IsActionPressed("click")) {
+            if (Input.MouseMode == Input.MouseModeEnum.Visible) {
+                Input.MouseMode = Input.MouseModeEnum.Captured;
+            }
+            else {
+                Shoot();
+            }
+        }
+    }
+
+    private void HandleEscape(InputEvent @event) {
+        if (@event.IsActionPressed("ui_cancel")) {
+            Input.MouseMode = Input.MouseModeEnum.Visible;
         }
     }
 }

@@ -1,10 +1,33 @@
-[gd_scene load_steps=3 format=3 uid="uid://dif7wvkvbhwlv"]
+[gd_scene load_steps=4 format=3 uid="uid://dif7wvkvbhwlv"]
 
 [ext_resource type="PackedScene" uid="uid://cvmlwrfowfoo3" path="res://Scenes/Entities/character.tscn" id="1_cvnsp"]
 [ext_resource type="Script" uid="uid://b3g840rg73343" path="res://Scripts/Entities/Player.cs" id="2_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://55un4umot2cn" path="res://Assets/Sprites/Weapons/weapon_plasmagun.png" id="3_qbyki"]
 
 [node name="Player" instance=ExtResource("1_cvnsp")]
 script = ExtResource("2_cvnsp")
 
 [node name="Camera3D" type="Camera3D" parent="Head" index="1"]
 far = 10000.0
+
+[node name="UIBar" type="Control" parent="." index="2"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="WeaponTextureRect" type="TextureRect" parent="UIBar" index="0"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -200.0
+offset_right = 100.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("3_qbyki")
