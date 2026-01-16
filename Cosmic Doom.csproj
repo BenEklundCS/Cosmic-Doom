@@ -1,13 +1,16 @@
 <Project Sdk="Godot.NET.Sdk/4.4.1">
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <EnableDynamicLoading>true</EnableDynamicLoading>
-    <RootNamespace>CosmicDoom</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <Content Include="Shaders\floor.gdshader" />
-    <Content Include="Shaders\floor.gdshader.uid" />
-    <Content Include="Shaders\laser.gdshader" />
-    <Content Include="Shaders\laser.gdshader.uid" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <EnableDynamicLoading>true</EnableDynamicLoading>
+        <RootNamespace>CosmicDoom</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Include="Shaders\floor.gdshader"/>
+        <Content Include="Shaders\floor.gdshader.uid"/>
+        <Content Include="Shaders\laser.gdshader"/>
+        <Content Include="Shaders\laser.gdshader.uid"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Scenes\"/>
+    </ItemGroup>
 </Project>

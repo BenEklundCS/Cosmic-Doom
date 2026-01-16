@@ -1,8 +1,4 @@
-namespace CosmicDoom.Scripts;
-
-using Godot;
-using System;
+namespace CosmicDoom.Scripts.Entities;
 
 public partial class Enemy : Character {
-    
 }

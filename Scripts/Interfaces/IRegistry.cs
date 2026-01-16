@@ -1,9 +1,7 @@
-﻿using System.Linq;
-
+﻿using System.Collections.Generic;
 namespace CosmicDoom.Scripts.Interfaces;
-
-using Godot;
 
 public interface IRegistry<TRegistryKey, TRegistryValue> {
     public TRegistryValue Get(TRegistryKey key);
+    public IEnumerable<TRegistryKey> GetKeys();
 }

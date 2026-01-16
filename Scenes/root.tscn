@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://t5vyclegttms"]
+[gd_scene load_steps=6 format=3 uid="uid://t5vyclegttms"]
 
 [ext_resource type="Script" uid="uid://csbrlwrxv12c1" path="res://Scripts/Root.cs" id="1_8pvmw"]
 [ext_resource type="PackedScene" uid="uid://bhdhjpb222xe2" path="res://Scenes/debug.tscn" id="3_vnucn"]
+[ext_resource type="PackedScene" uid="uid://cwqhywgy3s1l1" path="res://Scenes/Components/controller.tscn" id="4_4g5cr"]
 [ext_resource type="PackedScene" uid="uid://dif7wvkvbhwlv" path="res://Scenes/Entities/player.tscn" id="5_4g5cr"]
 [ext_resource type="PackedScene" uid="uid://bhq5qufg4vqxu" path="res://Scenes/Levels/level_one.tscn" id="5_ckhy6"]
 
@@ -11,6 +12,9 @@ script = ExtResource("1_8pvmw")
 [node name="Debug" parent="." instance=ExtResource("3_vnucn")]
 DebugPath = NodePath("")
 
-[node name="Player" parent="." instance=ExtResource("5_4g5cr")]
-
 [node name="LevelOne" parent="." instance=ExtResource("5_ckhy6")]
+
+[node name="Controller" parent="." instance=ExtResource("4_4g5cr")]
+Target = NodePath("Player")
+
+[node name="Player" parent="Controller" instance=ExtResource("5_4g5cr")]

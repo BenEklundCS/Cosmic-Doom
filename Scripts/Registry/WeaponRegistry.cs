@@ -1,51 +1,70 @@
 using System.Collections.Generic;
 using CosmicDoom.Scripts.Interfaces;
+using CosmicDoom.Scripts.Items;
+using CosmicDoom.Scripts.Strategies.Weapon;
+using Godot;
 
 namespace CosmicDoom.Scripts.Registry;
 
-using Godot;
-using static Godot.GD;
-using CosmicDoom.Scripts.Items;
+using static GD;
 
 public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
-    public static WeaponRegistry INSTANCE { get; private set; }
-
-    private readonly System.Collections.Generic.Dictionary<WeaponType, RWeapon> _weaponRegistry = new() {
+    private readonly Dictionary<WeaponType, RWeapon> _weaponRegistry = new() {
         [WeaponType.Knife] = new RWeapon(
             WeaponType.Knife,
-            Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_knife.png")
+            10,
+            Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_knife.png"),
+            new WeaponKnifeStrategy()
         ),
         [WeaponType.MachineGun] = new RWeapon(
             WeaponType.MachineGun,
-            Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_machinegun.png")
+            10,
+            Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_machinegun.png"),
+            new WeaponMachineGunStrategy()
         ),
         [WeaponType.PlasmaGun] = new RWeapon(
             WeaponType.PlasmaGun,
-            Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_plasmagun.png")
+            10,
+            Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_plasmagun.png"),
+            new WeaponPlasmaGunStrategy()
         ),
         [WeaponType.RocketLauncher] = new RWeapon(
             WeaponType.RocketLauncher,
-            Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_rocketlauncher.png")
+            10,
+            Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_rocketlauncher.png"),
+            new WeaponRocketLauncherStrategy()
         ),
         [WeaponType.Shotgun] = new RWeapon(
             WeaponType.Shotgun,
-            Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_shotgun.png")
+            10,
+            Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_shotgun.png"),
+            new WeaponShotgunStrategy()
         ),
         [WeaponType.Solution] = new RWeapon(
             WeaponType.Solution,
-            Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_solution.png")
+            10,
+            Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_solution.png"),
+            new WeaponSolutionStrategy()
         ),
         [WeaponType.None] = new RWeapon(
             WeaponType.None,
-            null
-        ),
+            10,
+            null,
+            new WeaponDefaultStrategy()
+        )
     };
 
-    public override void _Ready() {
-        INSTANCE = this;
-    }
+    public static WeaponRegistry INSTANCE { get; private set; }
 
     public RWeapon Get(WeaponType weaponType) {
         return _weaponRegistry.GetValueOrDefault(weaponType);
+    }
+
+    public IEnumerable<WeaponType> GetKeys() {
+        return _weaponRegistry.Keys;
+    }
+
+    public override void _Ready() {
+        INSTANCE = this;
     }
 }

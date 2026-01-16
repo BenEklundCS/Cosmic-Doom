@@ -1,6 +1,7 @@
 ﻿using Godot;
 
 namespace CosmicDoom.Scripts.Items;
+using Strategies;
 
 public enum WeaponType {
     Knife,
@@ -9,10 +10,12 @@ public enum WeaponType {
     RocketLauncher,
     Shotgun,
     Solution,
-    None,
+    None
 }
 
 public record RWeapon(
-    WeaponType Type,
-    CompressedTexture2D Texture
+    WeaponType TYPE,
+    int DAMAGE,
+    CompressedTexture2D TEXTURE,
+    IWeaponStrategy STRATEGY
 );

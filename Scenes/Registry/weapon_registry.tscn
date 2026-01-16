@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://clgox3o03o1kr"]
+
+[ext_resource type="Script" uid="uid://b106h3dkkxqno" path="res://Scripts/Registry/WeaponRegistry.cs" id="1_qjmk7"]
+
+[node name="WeaponRegistry" type="Node"]
+script = ExtResource("1_qjmk7")

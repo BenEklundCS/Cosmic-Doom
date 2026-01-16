@@ -1,8 +1,10 @@
-﻿namespace CosmicDoom.Scripts.Interfaces;
+﻿using Godot;
 
-using Godot;
+namespace CosmicDoom.Scripts.Interfaces;
 
 public interface IHittable {
+    [Signal]
+    public delegate void OnDeathEventHandler();
+
     public void Hit(int damage);
-    [Signal] public delegate void OnDeathEventHandler();
 }

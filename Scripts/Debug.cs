@@ -1,20 +1,18 @@
+using System.Collections.Generic;
+using System.Reflection;
+using Godot;
+
 namespace CosmicDoom.Scripts;
 
-using Godot;
-using static Godot.GD;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Array = Godot.Collections.Array;
+using static GD;
 
 public partial class Debug : Control {
-    [Export] public NodePath DebugPath;
-    [Export] public bool DebugEnabled = false;
-    
-    private PropertyInfo[] _properties;
+    private readonly Dictionary<string, int> _indexDict = new();
     private GridContainer _grid;
-    private Dictionary<string, int> _indexDict = new ();
+
+    private PropertyInfo[] _properties;
+    [Export] public bool DebugEnabled;
+    [Export] public NodePath DebugPath;
 
     public override void _Ready() {
         if (DebugEnabled) ReadyDebug();
@@ -29,7 +27,7 @@ public partial class Debug : Control {
 
         Print(GetNode(DebugPath).GetType());
         _properties = GetNode().GetType().GetProperties();
-        
+
         for (var i = 0; i < _properties.Length; i++) {
             var name = _properties[i].Name;
             var label = GetLabel(name);
