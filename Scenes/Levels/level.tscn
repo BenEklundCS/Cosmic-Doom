@@ -1,31 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bysmidth4brdd"]
-
-[ext_resource type="Shader" uid="uid://bxd1wxj31roi4" path="res://Shaders/floor.gdshader" id="1_7x7pb"]
-[ext_resource type="Texture2D" uid="uid://divhpgdjn4ub1" path="res://Assets/Sprites/Walls/wall_texture4.png" id="2_yjxcc"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4g5cr"]
-render_priority = 0
-shader = ExtResource("1_7x7pb")
-shader_parameter/floor_texture = ExtResource("2_yjxcc")
-shader_parameter/tiling_factor = 10.0
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_lkqqh"]
-material = SubResource("ShaderMaterial_4g5cr")
-
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_tq1so"]
-data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+[gd_scene format=3 uid="uid://bysmidth4brdd"]
 
 [node name="Level" type="Node3D"]
-
-[node name="Floor" type="StaticBody3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-transform = Transform3D(11.6441, 0, 0, 0, 1, 0, 0, 0, 11.3513, 0, 0, 0)
-mesh = SubResource("PlaneMesh_lkqqh")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-transform = Transform3D(11.6441, 0, 0, 0, 1, 0, 0, 0, 11.3513, 0, 0, 0)
-shape = SubResource("ConcavePolygonShape3D_tq1so")
 
 [node name="Objects" type="Node" parent="."]
 

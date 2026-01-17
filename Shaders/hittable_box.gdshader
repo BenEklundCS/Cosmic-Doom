@@ -1,7 +1,7 @@
 shader_type spatial;
 
 uniform sampler2D box_texture;
-uniform float tiling_factor;
+uniform float tiling_factor : hint_range(0.0f, 50.0f);
 uniform float redshift_amount : hint_range(0.0f, 1.0f);
 
 void fragment() {

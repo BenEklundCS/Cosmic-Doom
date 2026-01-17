@@ -1,8 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://cqc52y3m8xp1"]
+[gd_scene load_steps=6 format=3 uid="uid://cqc52y3m8xp1"]
 
 [ext_resource type="PackedScene" uid="uid://cvmlwrfowfoo3" path="res://Scenes/Entities/character.tscn" id="1_o6kgl"]
 [ext_resource type="Script" uid="uid://c1k48h1api7tr" path="res://Scripts/Entities/Enemy.cs" id="2_ge2ll"]
+[ext_resource type="Texture2D" uid="uid://6sqf6ifyo3fe" path="res://Assets/Sprites/Monsters/monster_destroyer_idle.png" id="3_ge2ll"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ge2ll"]
+atlas = ExtResource("3_ge2ll")
+region = Rect2(0, 0.351685, 32.6127, 31.6483)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ge2ll"]
+radius = 0.218217
 
 [node name="Enemy" instance=ExtResource("1_o6kgl")]
 script = ExtResource("2_ge2ll")
 HEALTH = 10
+
+[node name="Sprite3D" type="Sprite3D" parent="." index="2"]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, -0.000751138, 1.14809, -0.000844598)
+billboard = 2
+render_priority = 1
+texture = SubResource("AtlasTexture_ge2ll")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="3"]
+transform = Transform3D(3.4858, -0.0306287, 0, 0.0925574, 1.1535, 0, 0, 0, 3.57844, 0, 1.1896, 0)
+shape = SubResource("CapsuleShape3D_ge2ll")

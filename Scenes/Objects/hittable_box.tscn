@@ -1,14 +1,14 @@
 [gd_scene load_steps=7 format=3 uid="uid://elqd5fnawpft"]
 
 [ext_resource type="Script" uid="uid://7r1wkojfu18v" path="res://Scripts/Objects/HittableBox.cs" id="1_0shy5"]
-[ext_resource type="Shader" uid="uid://byl1680naaywt" path="res://Scenes/Objects/hittable_box.gdshader" id="2_0shy5"]
-[ext_resource type="Texture2D" uid="uid://dehhswdx7yq4v" path="res://Assets/Sprites/Walls/wall_texture0.png" id="3_0shy5"]
+[ext_resource type="Shader" uid="uid://byl1680naaywt" path="res://Shaders/hittable_box.gdshader" id="2_0shy5"]
+[ext_resource type="Texture2D" uid="uid://divhpgdjn4ub1" path="res://Assets/Sprites/Walls/wall_texture4.png" id="3_0shy5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vb7jt"]
 render_priority = 1
 shader = ExtResource("2_0shy5")
 shader_parameter/box_texture = ExtResource("3_0shy5")
-shader_parameter/tiling_factor = 7.0
+shader_parameter/tiling_factor = 3.0
 shader_parameter/redshift_amount = 0.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_1rjpn"]

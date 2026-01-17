@@ -8,7 +8,7 @@ using static Godot.GD;
 namespace CosmicDoom.Scripts.Strategies.Weapon;
 
 public class HitscanStrategy : IWeaponStrategy {
-    private Laser _laserFactory = new();
+    private readonly Laser _laserFactory = new();
     
     public void Execute(RAttackContext context) {
         var shots = context.WEAPON.SHOT_COUNT;

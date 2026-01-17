@@ -9,8 +9,6 @@ namespace CosmicDoom.Scripts.Registry;
 using static GD;
 
 public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
-    
-    
     private readonly Dictionary<WeaponType, RWeapon> _weaponRegistry = new() {
         [WeaponType.Knife] = new RWeapon(
             WeaponType.Knife,
