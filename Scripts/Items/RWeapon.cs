@@ -21,6 +21,7 @@ public record RWeapon(
     float SPREAD_DEGREES, // degrees
     float COOLDOWN,
     CompressedTexture2D TEXTURE,
+    CompressedTexture2D ON_USE_TEXTURE,
     AudioStreamWav[] AUDIO_STREAMS,
     IProjectile PROJECTILE,
     IWeaponStrategy STRATEGY

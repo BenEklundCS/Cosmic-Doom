@@ -18,6 +18,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             0f,
             0.5f,
             Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_knife.png"),
+            null,
             [],
             new Laser(),
             new MeleeStrategy()
@@ -29,6 +30,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             0f,
             0.5f,
             Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_machinegun.png"),
+            Load<CompressedTexture2D>("res://Assets/Sprites/Effects/effect_fireball.png"),
             [],
             new Laser(),
             new HitscanStrategy()
@@ -40,6 +42,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             0f,
             0.1f,
             Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_plasmagun.png"),
+            Load<CompressedTexture2D>("res://Assets/Sprites/Effects/effect_fireball.png"),
             [
                 Load<AudioStreamWav>("res://Sounds/Guns/Gunshots/243 Rifle/243 Rifle A 001.wav"),
                 Load<AudioStreamWav>("res://Sounds/Guns/Gunshots/243 Rifle/243 Rifle A 002.wav"),
@@ -55,6 +58,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             0f,
             2.0f,
             Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_rocketlauncher.png"),
+            Load<CompressedTexture2D>("res://Assets/Sprites/Effects/effect_fireball.png"),
             [],
             new Laser(),
             new ProjectileStrategy()
@@ -66,6 +70,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             5.0f,
             1.0f,
             Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_shotgun.png"),
+            Load<CompressedTexture2D>("res://Assets/Sprites/Effects/effect_fireball.png"),
             [
                 Load<AudioStreamWav>("res://Sounds/Guns/Gunshots/Dragonsbreath Shotgun/Dragonsbreath Shotgun A 001.wav"),
                 Load<AudioStreamWav>("res://Sounds/Guns/Gunshots/Dragonsbreath Shotgun/Dragonsbreath Shotgun A 002.wav"),
@@ -81,6 +86,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             0f,
             2.0f,
             Load<CompressedTexture2D>("res://Assets/Sprites/Weapons/weapon_solution.png"),
+            null,
             [],
             new Laser(),
             new ProjectileStrategy()
@@ -91,6 +97,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             1,
             0f,
             0.1f,
+            null,
             null,
             [],
             new Laser(),

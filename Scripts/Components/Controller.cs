@@ -17,7 +17,6 @@ public partial class Controller : Node {
 
     public override void _Process(double delta) {
         if (Input.IsActionPressed("click")) {
-            Print("Pressed");
             if (!IS_ACTIVE) {
                 Input.MouseMode = Input.MouseModeEnum.Captured;
                 return;
