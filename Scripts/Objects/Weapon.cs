@@ -10,7 +10,8 @@ using Items;
 using Context;
 
 public partial class Weapon : Node3D, IWeapon {
-    private Dictionary<WeaponType, LinkedListNode<Magazine>> _currentMagazines = new ();
+    private readonly Dictionary<WeaponType, LinkedListNode<Magazine>> _currentMagazines = new ();
+    private readonly Dictionary<WeaponType, AudioStreamRandomizer> _audioStreamRandomizers = new ();
     
     private AudioStreamPlayer3D _audio;
     private TextureRect _weaponRect;
@@ -40,36 +41,15 @@ public partial class Weapon : Node3D, IWeapon {
         }
         
         _rWeapon = rWeapon;
-        _weaponRect.Texture = rWeapon.TEXTURE;
-        _onUseRect.Texture = rWeapon.ON_USE_TEXTURE;
         
-        // initialize ammo if first equip
-        if (!_currentMagazines.ContainsKey(rWeapon.TYPE)) {
-            var newMagazineFeed = new LinkedList<Magazine>();
-            var maxAmmo = rWeapon.MAX_AMMO;
-            var ammoPerMagazine = rWeapon.AMMO;
-            while (maxAmmo >= ammoPerMagazine && maxAmmo > 0) {
-                maxAmmo -= ammoPerMagazine;
-                var magazine = new Magazine(ammoPerMagazine, ammoPerMagazine);
-                newMagazineFeed.AddLast(magazine);
-            }
-            _currentMagazines[rWeapon.TYPE] = newMagazineFeed.First;
-        }
-        
-        UpdateAmmo(false);
-
-        var randomizer = new AudioStreamRandomizer();
-        for (int i = 0; i < _rWeapon.AUDIO_STREAMS.Length; i++) {
-            randomizer.AddStream(i, _rWeapon.AUDIO_STREAMS[i]);
-        }
-        _audio.Stream = randomizer;
-        
-        _cooldownTimer.Stop();
-        _cooldownTimer.SetWaitTime(rWeapon.COOLDOWN);
+        UpdateGunTexture();
+        EnsureInitialized();
+        UpdateCurrentMagazine(false);
+        UpdateCooldown();
     }
 
     public void Use(RAttackContext context) {
-        var ammo = GetAmmo(_rWeapon.TYPE);
+        var ammo = GetAmmo();
         
         if (ammo > 0) {
             if (_cooldownTimer.IsStopped()) {
@@ -77,7 +57,7 @@ public partial class Weapon : Node3D, IWeapon {
                 _cooldownTimer.Start();
                 _onUseRectVisibilityTimer.Start();
                 _onUseRect.Visible = true;
-                UpdateAmmo(true);
+                UpdateCurrentMagazine(true);
             }
         }
         else if (_reloadTimer.IsStopped()) {
@@ -85,41 +65,94 @@ public partial class Weapon : Node3D, IWeapon {
             _reloadTimer.Start();
         }
     }
+    
+    private void EnsureInitialized() {
+        if (!_currentMagazines.ContainsKey(_rWeapon.TYPE)) {
+            InitializeMagazines();
+        }
+    
+        if (!_audioStreamRandomizers.ContainsKey(_rWeapon.TYPE)) {
+            InitializeAudio();
+        }
+    
+        _audio.Stream = _audioStreamRandomizers[_rWeapon.TYPE];
+    }
 
+    private void InitializeMagazines() {
+        var newMagazineFeed = new LinkedList<Magazine>();
+        var maxAmmo = _rWeapon.MAX_AMMO;
+        var ammoPerMagazine = _rWeapon.AMMO;
+        while (maxAmmo >= ammoPerMagazine && maxAmmo > 0) {
+            maxAmmo -= ammoPerMagazine;
+            var magazine = new Magazine(ammoPerMagazine, ammoPerMagazine);
+            newMagazineFeed.AddLast(magazine);
+        }
+        _currentMagazines[_rWeapon.TYPE] = newMagazineFeed.First;
+    }
+
+    private void InitializeAudio() {
+        var randomizer = new AudioStreamRandomizer();
+        for (var i = 0; i < _rWeapon.AUDIO_STREAMS.Length; i++) {
+            randomizer.AddStream(i, _rWeapon.AUDIO_STREAMS[i]);
+        }
+        _audioStreamRandomizers[_rWeapon.TYPE] = randomizer;
+    }
+    
     private void Reload() {
         var node = _currentMagazines[_rWeapon.TYPE];
         if (node == null) return;
         var nextNode = node.Next;
         if (nextNode != null) {
             _currentMagazines[_rWeapon.TYPE] = nextNode;
-            UpdateAmmo(false);
+            UpdateCurrentMagazine(false);
         }
         else {
             Print("Out of ammo!");
         }
     }
-
-    private int GetAmmo(WeaponType weaponType) {
+    
+    private int GetAmmo() {
         var node = _currentMagazines[_rWeapon.TYPE];
-        if (node == null) return 0;
-        return node.Value.Mag;
+        return (node == null) ? 0 : node.Value.Mag;
     }
 
-    private int GetRemainingMagCount(LinkedListNode<Magazine> node) {
-        int count = 0;
+
+    // updates the magazine on-equip or on-use of a weapon
+    // if shot is true, deduct from the mag
+    private void UpdateCurrentMagazine(bool shot) {
+        var node = _currentMagazines.GetValueOrDefault(_rWeapon.TYPE);
+        if (node == null) {
+            UpdateAmmoLabel(default, 0, false);
+            return;
+        }
+        if (shot) {
+            node.ValueRef.Mag -= 1;
+        }
+        var count = GetRemainingMagCount(node);
+        UpdateAmmoLabel(node.Value, count, true);
+    }
+
+    private void UpdateGunTexture() {
+        _weaponRect.Texture = _rWeapon.TEXTURE;
+        _onUseRect.Texture = _rWeapon.ON_USE_TEXTURE;
+    }
+
+    private void UpdateAmmoLabel(Magazine mag, int magCount, bool visible) {
+        _ammoLabel.Visible = visible;
+        _ammoLabel.Text = $"{mag.Mag} / {magCount}";
+    }
+
+    private void UpdateCooldown() {
+        _cooldownTimer.Stop();
+        _cooldownTimer.SetWaitTime(_rWeapon.COOLDOWN);
+    }
+    
+    private static int GetRemainingMagCount(LinkedListNode<Magazine> node) {
+        var count = 0;
         while (node.Next != null) {
             count += 1;
             node = node.Next;
         }
         return count;
-    }
-
-    private void UpdateAmmo(bool shot) {
-        var node = _currentMagazines[_rWeapon.TYPE];
-        if (node == null) return;
-        if (shot) {
-            node.ValueRef.Mag -= 1;
-        }
-        _ammoLabel.Text = $"{node.Value.Mag} / {GetRemainingMagCount(node)}";
     }
 }
