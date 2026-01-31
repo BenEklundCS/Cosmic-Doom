@@ -16,6 +16,7 @@ public partial class Weapon : Node3D, IWeapon {
     private AudioStreamPlayer3D _audio;
     private TextureRect _weaponRect;
     private TextureRect _onUseRect;
+    private TextureRect _weaponIconRect;
     private RWeapon _rWeapon;
     private Timer _cooldownTimer;
     private Timer _reloadTimer;
@@ -26,6 +27,7 @@ public partial class Weapon : Node3D, IWeapon {
         _audio = GetNode<AudioStreamPlayer3D>("AudioStreamPlayer3D");
         _weaponRect = GetNode<TextureRect>("UI/WeaponTexture");
         _onUseRect = GetNode<TextureRect>("UI/OnUseTexture");
+        _weaponIconRect = GetNode<TextureRect>("UI/BoxContainer/WeaponIcon");
         _cooldownTimer = GetNode<Timer>("CooldownTimer");
         _reloadTimer = GetNode<Timer>("ReloadTimer");
         _reloadTimer.Timeout += Reload;
@@ -60,7 +62,7 @@ public partial class Weapon : Node3D, IWeapon {
                 UpdateCurrentMagazine(true);
             }
         }
-        else if (_reloadTimer.IsStopped()) {
+        else if (_reloadTimer.IsStopped() && _rWeapon.RELOAD_ENABLED) {
             Print("Reloading!");
             _reloadTimer.Start();
         }
@@ -135,6 +137,7 @@ public partial class Weapon : Node3D, IWeapon {
     private void UpdateGunTexture() {
         _weaponRect.Texture = _rWeapon.TEXTURE;
         _onUseRect.Texture = _rWeapon.ON_USE_TEXTURE;
+        _weaponIconRect.Texture = _rWeapon.ICON;
     }
 
     private void UpdateAmmoLabel(Magazine mag, int magCount, bool visible) {

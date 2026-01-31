@@ -5,6 +5,7 @@ using Godot;
 
 public interface IProjectile {
     void SetContext(RAttackContext context);
+    void SetVelocity(Vector3 velocity);
     IProjectile Spawn();
 }
 

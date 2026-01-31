@@ -17,14 +17,13 @@ public enum WeaponType {
 public record RWeapon(
     WeaponType TYPE,
     int DAMAGE,
-    int SHOT_COUNT, // shots per round
+    bool RELOAD_ENABLED,
     int AMMO,
     int MAX_AMMO,
-    float SPREAD_DEGREES, // degrees
     float COOLDOWN,
     CompressedTexture2D TEXTURE,
     CompressedTexture2D ON_USE_TEXTURE,
+    CompressedTexture2D ICON,
     AudioStreamWav[] AUDIO_STREAMS,
-    IProjectile PROJECTILE,
     IWeaponStrategy STRATEGY
 );

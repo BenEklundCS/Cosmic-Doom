@@ -7,13 +7,19 @@ using Context;
 
 public partial class Projectile : Node3D, IProjectile<Projectile> {
     private RAttackContext _context;
+    protected Vector3 Velocity;
     
     public void SetContext(RAttackContext context) {
         _context = context;
     }
-    
-    public Projectile Spawn() {
-        return (Projectile)Load<PackedScene>("res://Scenes/Objects/Projectiles/laser.tscn").Instantiate();
+
+    public void SetVelocity(Vector3 velocity) {
+        Velocity = velocity;
     }
+
+    public virtual Projectile Spawn() {
+        return null;
+    }
+    
     IProjectile IProjectile.Spawn() => Spawn();
 }

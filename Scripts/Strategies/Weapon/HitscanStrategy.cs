@@ -1,19 +1,20 @@
+using CosmicDoom.Scripts.Objects.Projectiles;
+
 namespace CosmicDoom.Scripts.Strategies.Weapon;
 
 using Godot;
 using Context;
 using Interfaces;
 
-public class HitscanStrategy : IWeaponStrategy {
+public class HitscanStrategy(int shotCount = 1, float spreadDegrees = 0.0f) : IWeaponStrategy {
+    private IProjectile _debugProjectile = new Laser();
     public void Execute(RAttackContext context) {
-        var shots = context.WEAPON.SHOT_COUNT;
-        var spreadDegrees = context.WEAPON.SPREAD_DEGREES;
         var damage = context.WEAPON.DAMAGE;
         var ray = context.RAY;
         var originalGlobalTransform = ray.GlobalTransform;
     
-        for (int i = 0; i < shots; i++) {
-            var projectile = context.WEAPON.PROJECTILE.Spawn();
+        for (int i = 0; i < shotCount; i++) {
+            var projectile = _debugProjectile.Spawn();
             var spreadQuaternion = Utils.GetSpreadQuaternion(spreadDegrees);
             
             ray.GlobalTransform = originalGlobalTransform;

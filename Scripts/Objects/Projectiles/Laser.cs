@@ -1,5 +1,6 @@
 namespace CosmicDoom.Scripts.Objects.Projectiles;
 using Godot;
+using static Godot.GD;
 
 public partial class Laser : Projectile {
     private Timer _timer;
@@ -12,5 +13,9 @@ public partial class Laser : Projectile {
 
     private void OnTimerTimeout() {
         QueueFree();
+    }
+    
+    public override Laser Spawn() {
+        return (Laser)Load<PackedScene>("res://Scenes/Objects/Projectiles/laser.tscn").Instantiate();
     }
 }
