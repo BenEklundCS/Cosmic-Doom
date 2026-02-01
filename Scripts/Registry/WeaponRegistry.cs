@@ -65,7 +65,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             Load<CompressedTexture2D>("res://Assets/Sprites/Effects/effect_fireball.png"),
             Load<CompressedTexture2D>("res://Assets/Sprites/Icons/rocket_launcher_icon_1.png"),
             [],
-            new ProjectileStrategy(projectile: new Rocket(), projectileVelocity: 1000f)
+            new ProjectileStrategy(projectile: new Rocket(), projectileVelocity: 10f)
         ),
         [WeaponType.Shotgun] = new RWeapon(
             WeaponType.Shotgun,
@@ -95,7 +95,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             null,
             Load<CompressedTexture2D>("res://Assets/Sprites/Icons/hand_grenade_icon_1.png"),
             [],
-            new ProjectileStrategy(projectile: new Laser(), projectileVelocity: 500f)
+            new ProjectileStrategy(projectile: new Laser(), projectileVelocity: 5f)
         ),
         [WeaponType.None] = new RWeapon(
             WeaponType.None,

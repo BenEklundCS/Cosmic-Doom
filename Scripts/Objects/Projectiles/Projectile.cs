@@ -5,12 +5,12 @@ using static Godot.GD;
 using Interfaces;
 using Context;
 
-public partial class Projectile : Node3D, IProjectile<Projectile> {
-    private RAttackContext _context;
+public partial class Projectile(float projectileSpeed = 0.0f) : Node3D, IProjectile<Projectile> {
+    protected RAttackContext Context;
     protected Vector3 Velocity;
     
     public void SetContext(RAttackContext context) {
-        _context = context;
+        Context = context;
     }
 
     public void SetVelocity(Vector3 velocity) {
