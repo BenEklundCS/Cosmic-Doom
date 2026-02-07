@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://terminal_decor_001"]
+[gd_scene load_steps=3 format=3 uid="uid://bhu278ebs43jb"]
 
-[ext_resource type="Texture2D" uid="uid://c4ksqjlm0e31i" path="res://Assets/Sprites/Items/item_terminal.png" id="1_terminal"]
+[ext_resource type="Texture2D" uid="uid://dylvvkwyfw5jr" path="res://Assets/Sprites/Items/item_terminal.png" id="1_terminal"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1"]
 size = Vector3(0.8, 1.2, 0.5)
@@ -10,9 +10,9 @@ size = Vector3(0.8, 1.2, 0.5)
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 pixel_size = 0.05
-billboard = 1
-texture_filter = 0
+billboard = 2
 alpha_cut = 1
+texture_filter = 0
 texture = ExtResource("1_terminal")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

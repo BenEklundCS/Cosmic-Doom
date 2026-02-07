@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://53y34xwgk2fg"]
+[gd_scene load_steps=4 format=3 uid="uid://53y34xwgk2fg"]
+
+[ext_resource type="Script" uid="uid://d3ftmbvgm2gjs" path="res://Scripts/Objects/Decor/CeilingLight.cs" id="1_ja2iv"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_base"]
 albedo_color = Color(0.15, 0.15, 0.15, 1)
@@ -9,6 +11,7 @@ emission = Color(1, 0.95, 0.8, 1)
 emission_energy_multiplier = 3.0
 
 [node name="CeilingLight" type="Node3D"]
+script = ExtResource("1_ja2iv")
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
 cast_shadow = 0
@@ -32,3 +35,7 @@ shadow_enabled = true
 shadow_bias = 0.2
 omni_range = 20.0
 omni_attenuation = 1.2
+
+[node name="FlickerTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true

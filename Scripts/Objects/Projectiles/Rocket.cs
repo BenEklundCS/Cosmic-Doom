@@ -10,6 +10,7 @@ using static Godot.GD;
 public partial class Rocket : Projectile {
     private Area3D _collisionBox;
     private Area3D _explosionBox;
+    private bool _exploded;
     
     public override void _Ready() {
         _collisionBox = GetNode<Area3D>("CollisionBox");
@@ -31,6 +32,9 @@ public partial class Rocket : Projectile {
     }
 
     private void Explode() {
+        if (_exploded) return;
+        
+        _exploded = true;
         Velocity = Vector3.Zero;
         
         EffectProvider.INSTANCE.SpawnEffectAt(EffectType.Explosion, GlobalPosition);
@@ -44,5 +48,4 @@ public partial class Rocket : Projectile {
         // Remove the rocket
         QueueFree();
     }
-
 }

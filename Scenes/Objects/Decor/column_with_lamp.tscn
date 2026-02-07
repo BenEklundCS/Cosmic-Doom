@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bw3t5ly64es52"]
+
+[ext_resource type="PackedScene" uid="uid://iph04ax5ao8o" path="res://Scenes/Objects/Decor/column.tscn" id="1_l1mp6"]
+[ext_resource type="PackedScene" uid="uid://c7162diabe0kd" path="res://Scenes/Objects/Decor/lamp.tscn" id="2_ij84w"]
+
+[node name="ColumnWithLamp" type="Node3D"]
+
+[node name="Column" parent="." instance=ExtResource("1_l1mp6")]
+
+[node name="Lamp" parent="." instance=ExtResource("2_ij84w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.795, 0)
