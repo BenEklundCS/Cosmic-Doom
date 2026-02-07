@@ -55,6 +55,13 @@ public partial class Controller : Node {
         if (@event.IsActionPressed("wheel_down")) _controlTarget?.PrevWeapon();
     }
 
+    public void SetTarget(IControllable target) {
+        _controlTarget = target;
+        if (target is Character character) {
+            character.OnDeath += OnCharacterDeath;
+        }
+    }
+
     private void OnCharacterDeath() {
         _controlTarget = null;
     }
