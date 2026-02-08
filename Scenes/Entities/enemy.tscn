@@ -30,3 +30,9 @@ shape = SubResource("CapsuleShape3D_ge2ll")
 
 [node name="CooldownTimer" type="Timer" parent="." index="4"]
 one_shot = true
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." index="5"]
+debug_enabled = true
+
+[node name="FlashTimer" type="Timer" parent="." index="6"]
+wait_time = 0.1

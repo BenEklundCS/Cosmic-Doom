@@ -1,14 +1,15 @@
+namespace CosmicDoom.Scripts.Registry;
+
 using Godot;
-using System;
 using System.Collections.Generic;
-using CosmicDoom.Scripts.Entities;
-using CosmicDoom.Scripts.Interfaces;
-using CosmicDoom.Scripts.Strategies;
-using CosmicDoom.Scripts.Strategies.EnemyAI;
+using Entities;
+using Interfaces;
+using Strategies;
+using Strategies.EnemyAI;
 
 public partial class EnemyAiRegistry : Node, IRegistry<EnemyType, IEnemyAiStrategy> {
     private readonly Dictionary<EnemyType, IEnemyAiStrategy> _enemyAiRegistry = new() {
-        [EnemyType.Destroyer] = new DefaultStrategy()
+        [EnemyType.Destroyer] = new DestroyerStrategy()
     };
         
     public static EnemyAiRegistry INSTANCE { get; private set; }

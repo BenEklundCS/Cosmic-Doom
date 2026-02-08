@@ -22,7 +22,7 @@ public abstract partial class Character : CharacterBody3D, IHittable {
     
     private float _gravity;
 
-    public void Hit(int damage) {
+    public virtual void Hit(int damage) {
         HEALTH -= damage;
         if (!(HEALTH <= 0)) return;
         

@@ -22,6 +22,13 @@ EffectProvider="*res://Scenes/Provider/effect_provider.tscn"
 EnemyAiRegistry="*res://Scenes/Registry/enemy_ai_registry.tscn"
 CyclopsAutoload="*res://addons/cyclops_level_builder/cyclops_global_scene.tscn"
 
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
 [dotnet]
 
 project/assembly_name="Cosmic Doom"
