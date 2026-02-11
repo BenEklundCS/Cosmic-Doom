@@ -1,3 +1,4 @@
+using CosmicDoom.Scripts.Strategies.EnemyAI.Actions;
 using CosmicDoom.Scripts.Strategies.EnemyAI.Actions.Destroyer;
 
 namespace CosmicDoom.Scripts.Registry;
@@ -15,10 +16,11 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
         [EnemyType.Destroyer] = new REnemy(
             EnemyType.Destroyer,
             GetSpriteFrames(EnemyType.Destroyer),
-            new UtilityAiStrategy( new IAction[]{
-                    new DestroyerActionMove(),
-                    new DestroyerActionAttack(),
-                }
+            new UtilityAiStrategy(
+                new IBackgroundAction[] { new FacePlayer() },
+                new DestroyerActionMove(),
+                new DestroyerActionAttack(),
+                new DestroyerActionPanic()
             ),
             WeaponType.PlasmaGun
         )

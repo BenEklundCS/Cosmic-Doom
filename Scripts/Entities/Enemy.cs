@@ -12,6 +12,7 @@ using Registry;
 public enum EnemyState { Idle, Walking, Attacking }
 
 public partial class Enemy : Character, IEnemyControllable {
+    [Signal] public delegate void TargetReachedEventHandler();
     [Export] public EnemyType Type;
     [Export] public float MoveRange = 500.0f;
     [Export] public Vector2 MoveThinkingTimeRange = new (1.0f, 5.0f);
@@ -122,6 +123,7 @@ public partial class Enemy : Character, IEnemyControllable {
     private void OnTargetReached() {
         if (_state != EnemyState.Attacking)
             SetState(EnemyState.Idle);
+        EmitSignalTargetReached();
     }
 
     private void SetState(EnemyState newState) {

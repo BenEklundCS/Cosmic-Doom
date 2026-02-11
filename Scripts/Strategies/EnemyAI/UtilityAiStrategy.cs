@@ -2,8 +2,12 @@ namespace CosmicDoom.Scripts.Strategies.EnemyAI;
 
 using Interfaces;
 
-public class UtilityAiStrategy(params IAction[] actions) : IEnemyAiStrategy {
+public class UtilityAiStrategy(IBackgroundAction[] background, params IAction[] actions) : IEnemyAiStrategy {
     public void Execute(IEnemyControllable enemy, double delta) {
+        foreach (var bg in background) {
+            bg.Execute(enemy, delta);
+        }
+
         IAction best = null;
         var bestScore = float.MinValue;
 
