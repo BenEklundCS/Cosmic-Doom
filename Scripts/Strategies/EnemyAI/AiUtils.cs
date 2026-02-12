@@ -8,7 +8,7 @@ using Entities;
 public class AiUtils {
     public static Vector3 GetMovePositionWherePlayerVisible(Enemy enemy) {
         var points = enemy.GetTree().GetNodesInGroup("points").Cast<Point>().ToArray();
-        var player = (Player)enemy.GetTree().GetNodesInGroup("players")[0];
+        var player = GetPlayer(enemy);
 
         if (player == null || points.Length == 0) {
             return enemy.GlobalPosition;
@@ -30,7 +30,7 @@ public class AiUtils {
 
     public static Vector3 GetMovePositionWhereHidden(Enemy enemy) {
         var points = enemy.GetTree().GetNodesInGroup("points").Cast<Point>().ToArray();
-        var player = (Player)enemy.GetTree().GetNodesInGroup("players")[0];
+        var player = GetPlayer(enemy);
         
         if (player == null || points.Length == 0) {
             return enemy.GlobalPosition;
@@ -48,5 +48,10 @@ public class AiUtils {
         return pointsWherePlayerIsNotVisible
             .MaxBy(point => enemy.GlobalPosition.DistanceTo(point.GlobalPosition))!
             .GlobalPosition;
+    }
+
+    private static Player GetPlayer(Enemy enemy) {
+        var players = enemy.GetTree().GetNodesInGroup("players");
+        return players.Count > 0 ? (Player)players[0] : null;
     }
 }

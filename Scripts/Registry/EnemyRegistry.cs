@@ -16,12 +16,14 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
         [EnemyType.Destroyer] = new REnemy(
             EnemyType.Destroyer,
             GetSpriteFrames(EnemyType.Destroyer),
-            new UtilityAiStrategy(
-                new IBackgroundAction[] { new FacePlayer() },
-                new DestroyerActionMove(),
-                new DestroyerActionAttack(),
-                new DestroyerActionPanic()
-            ),
+            () => {
+                return new UtilityAiStrategy(
+                    new IBackgroundAction[] { new FacePlayer() },
+                    new DestroyerActionMove(),
+                    new DestroyerActionAttack(),
+                    new DestroyerActionPanic()
+                );
+            },
             WeaponType.PlasmaGun
         )
     };

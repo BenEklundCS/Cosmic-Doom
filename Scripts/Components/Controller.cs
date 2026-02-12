@@ -8,12 +8,11 @@ namespace CosmicDoom.Scripts.Components;
 public partial class Controller : Node {
     #nullable enable
     private IControllable? _controlTarget;
-    [Export] public required NodePath Target;
 
     private static bool IS_ACTIVE => Input.MouseMode == Input.MouseModeEnum.Captured;
 
     public override void _Ready() {
-        _controlTarget = GetNode<IControllable>(Target);
+        _controlTarget = GetParent() as IControllable;
         if (_controlTarget is Character character) {
             character.OnDeath += OnCharacterDeath;
         }
@@ -53,13 +52,6 @@ public partial class Controller : Node {
         if (@event.IsActionPressed("jump")) _controlTarget?.Jump();
         if (@event.IsActionPressed("wheel_up")) _controlTarget?.NextWeapon();
         if (@event.IsActionPressed("wheel_down")) _controlTarget?.PrevWeapon();
-    }
-
-    public void SetTarget(IControllable target) {
-        _controlTarget = target;
-        if (target is Character character) {
-            character.OnDeath += OnCharacterDeath;
-        }
     }
 
     private void OnCharacterDeath() {

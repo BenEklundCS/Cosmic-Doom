@@ -12,7 +12,7 @@ using Components;
 using Context;
 
 public partial class Weapon : Node3D, IWeapon {
-    private readonly Dictionary<WeaponType, LinkedListNode<Magazine>> _currentMagazines = new ();
+    private readonly Dictionary<WeaponType, MagazineFeed> _magazineFeeds = new ();
     private readonly Dictionary<WeaponType, AudioStreamRandomizer> _audioStreamRandomizers = new ();
     
     private AudioStreamPlayer3D _audio;
@@ -51,17 +51,7 @@ public partial class Weapon : Node3D, IWeapon {
             _ammoLabel.HorizontalAlignment = HorizontalAlignment.Center;
             _ammoLabel.VerticalAlignment = VerticalAlignment.Center;
 
-            _ammoBg = new ColorRect();
-            _ammoBg.Color = new Color(0.1f, 0.1f, 0.1f, 0.7f);
-            _ammoBg.MouseFilter = Control.MouseFilterEnum.Ignore;
-            _ammoBg.AnchorTop = 1f;
-            _ammoBg.AnchorBottom = 1f;
-            _ammoBg.OffsetLeft = 20f;
-            _ammoBg.OffsetTop = _ammoLabel.OffsetTop;
-            _ammoBg.OffsetRight = 220f;
-            _ammoBg.OffsetBottom = _ammoLabel.OffsetTop + 24f;
-            ui.AddChild(_ammoBg);
-            ui.MoveChild(_ammoBg, _ammoLabel.GetIndex());
+            _ammoBg = GetNode<ColorRect>("UI/AmmoBg");
             _iconFlash = GetNode<FlashRed>("UI/BoxContainer/WeaponIcon/FlashRed");
         } else {
             ui?.QueueFree();
@@ -114,27 +104,15 @@ public partial class Weapon : Node3D, IWeapon {
     }
     
     private void EnsureInitialized() {
-        if (!_currentMagazines.ContainsKey(_rWeapon.TYPE)) {
-            InitializeMagazines();
+        if (!_magazineFeeds.ContainsKey(_rWeapon.TYPE) && _rWeapon.AMMO > 0) {
+            _magazineFeeds[_rWeapon.TYPE] = new MagazineFeed(_rWeapon.AMMO, _rWeapon.MAX_AMMO);
         }
-    
+
         if (!_audioStreamRandomizers.ContainsKey(_rWeapon.TYPE)) {
             InitializeAudio();
         }
-    
-        _audio.Stream = _audioStreamRandomizers[_rWeapon.TYPE];
-    }
 
-    private void InitializeMagazines() {
-        var newMagazineFeed = new LinkedList<Magazine>();
-        var maxAmmo = _rWeapon.MAX_AMMO;
-        var ammoPerMagazine = _rWeapon.AMMO;
-        while (maxAmmo >= ammoPerMagazine && maxAmmo > 0) {
-            maxAmmo -= ammoPerMagazine;
-            var magazine = new Magazine(ammoPerMagazine, ammoPerMagazine);
-            newMagazineFeed.AddLast(magazine);
-        }
-        _currentMagazines[_rWeapon.TYPE] = newMagazineFeed.First;
+        _audio.Stream = _audioStreamRandomizers[_rWeapon.TYPE];
     }
 
     private void InitializeAudio() {
@@ -146,11 +124,7 @@ public partial class Weapon : Node3D, IWeapon {
     }
     
     private void Reload() {
-        var node = _currentMagazines[_rWeapon.TYPE];
-        if (node == null) return;
-        var nextNode = node.Next;
-        if (nextNode != null) {
-            _currentMagazines[_rWeapon.TYPE] = nextNode;
+        if (_magazineFeeds[_rWeapon.TYPE].Reload()) {
             UpdateCurrentMagazine(false);
         }
         else {
@@ -158,25 +132,20 @@ public partial class Weapon : Node3D, IWeapon {
         }
     }
     
-    private int GetAmmo() {
-        var node = _currentMagazines[_rWeapon.TYPE];
-        return (node == null) ? 0 : node.Value.Mag;
-    }
-
-
     // updates the magazine on-equip or on-use of a weapon
     // if shot is true, deduct from the mag
     private void UpdateCurrentMagazine(bool shot) {
-        var node = _currentMagazines.GetValueOrDefault(_rWeapon.TYPE);
-        if (node == null) {
-            UpdateAmmoLabel(default, 0, false);
+        if (!_magazineFeeds.TryGetValue(_rWeapon.TYPE, out var feed)) {
+            UpdateAmmoLabel(0, 0, false);
             return;
         }
-        if (shot) {
-            node.ValueRef.Mag -= 1;
-        }
-        var count = GetRemainingMagCount(node);
-        UpdateAmmoLabel(node.Value, count, true);
+
+        if (shot) feed.Shoot();
+        UpdateAmmoLabel(feed.AMMO_IN_MAG, feed.RESERVE_COUNT, true);
+    }
+
+    private int GetAmmo() {
+        return _magazineFeeds.TryGetValue(_rWeapon.TYPE, out var feed) ? feed.AMMO_IN_MAG : 0;
     }
 
     private void UpdateGunTexture() {
@@ -186,24 +155,15 @@ public partial class Weapon : Node3D, IWeapon {
         _weaponIconRect.Texture = _rWeapon.ICON;
     }
 
-    private void UpdateAmmoLabel(Magazine mag, int magCount, bool visible) {
+    private void UpdateAmmoLabel(int ammo, int magCount, bool visible) {
         if (!_hasUi) return;
         _ammoLabel.Visible = visible;
         _ammoBg.Visible = visible;
-        _ammoLabel.Text = $"{mag.Mag} / {magCount}";
+        _ammoLabel.Text = $"{ammo} / {magCount}";
     }
 
     private void UpdateCooldown() {
         _cooldownTimer.Stop();
         _cooldownTimer.SetWaitTime(_rWeapon.COOLDOWN);
-    }
-    
-    private static int GetRemainingMagCount(LinkedListNode<Magazine> node) {
-        var count = 0;
-        while (node.Next != null) {
-            count += 1;
-            node = node.Next;
-        }
-        return count;
     }
 }

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dif7wvkvbhwlv"]
+[gd_scene load_steps=6 format=3 uid="uid://dif7wvkvbhwlv"]
 
 [ext_resource type="PackedScene" uid="uid://cvmlwrfowfoo3" path="res://Scenes/Entities/character.tscn" id="1_cvnsp"]
 [ext_resource type="Script" uid="uid://b3g840rg73343" path="res://Scripts/Entities/Player.cs" id="2_cvnsp"]
-[ext_resource type="PackedScene" uid="uid://bajkuqwah0f4a" path="res://Scenes/Objects/weapon.tscn" id="4_svftf"]
+[ext_resource type="PackedScene" uid="uid://bajkuqwah0f4a" path="res://Scenes/Objects/Weapon.tscn" id="4_svftf"]
+[ext_resource type="PackedScene" uid="uid://cwqhywgy3s1l1" path="res://Scenes/Components/controller.tscn" id="5_ctrl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1f0kj"]
 radius = 0.218217
@@ -23,3 +24,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29647, 0)
 [node name="Label" type="Label" parent="." index="3"]
 offset_right = 279.0
 offset_bottom = 61.0
+
+[node name="Controller" parent="." index="4" instance=ExtResource("5_ctrl")]

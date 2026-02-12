@@ -1,5 +1,6 @@
 ﻿using CosmicDoom.Scripts.Entities;
 using CosmicDoom.Scripts.Interfaces;
+using Godot;
 
 namespace CosmicDoom.Scripts.Strategies.EnemyAI.Actions.Destroyer;
 
@@ -27,5 +28,6 @@ public class DestroyerActionPanic : IAction {
 
     private void OnTargetReached() {
         _inPanic = false;
+        
     }
 }

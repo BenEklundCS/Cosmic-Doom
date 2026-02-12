@@ -1,3 +1,5 @@
+using System;
+
 namespace CosmicDoom.Scripts.Items;
 
 using Godot;
@@ -10,6 +12,6 @@ public enum EnemyType {
 public record REnemy(
     EnemyType TYPE,
     SpriteFrames SPRITE_FRAMES,
-    IEnemyAiStrategy STRATEGY,
+    Func<IEnemyAiStrategy> STRATEGY,
     WeaponType WEAPON_TYPE
 );

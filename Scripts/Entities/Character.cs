@@ -41,9 +41,9 @@ public abstract partial class Character : CharacterBody3D, IHittable {
         base._Ready();
     }
 
-    public override void _Process(double delta) {
+    public override void _PhysicsProcess(double delta) {
         Move(delta);
-        base._Process(delta);
+        base._PhysicsProcess(delta);
     }
 
     private void Move(double delta) {

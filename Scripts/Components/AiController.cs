@@ -10,11 +10,9 @@ public partial class AiController : Node {
     private Enemy? _enemy;
     private IEnemyAiStrategy? _strategy;
 
-    [Export] required public NodePath Target;
-
     public override void _Ready() {
-        _enemy = GetNode<Enemy>(Target);
-        _strategy = EnemyRegistry.INSTANCE.Get(_enemy.Type).STRATEGY;
+        _enemy = GetParent<Enemy>();
+        _strategy = EnemyRegistry.INSTANCE.Get(_enemy.Type).STRATEGY();
         _enemy.OnDeath += OnEnemyDeath;
     }
 

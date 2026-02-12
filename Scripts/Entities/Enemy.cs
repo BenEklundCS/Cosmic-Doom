@@ -79,6 +79,8 @@ public partial class Enemy : Character, IEnemyControllable {
             pos.Y = _spriteBaseY;
             _animatedSprite.Position = pos;
         }
+        
+        base._PhysicsProcess(delta);
     }
 
     public void MoveTo(Vector3 position) {
