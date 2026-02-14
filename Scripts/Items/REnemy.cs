@@ -6,7 +6,13 @@ using Godot;
 using Strategies;
 
 public enum EnemyType {
-    Destroyer
+    Destroyer,
+    Turret,
+    Spider,
+    Ender,
+    Exploder,
+    PlasmaBot,
+    Warrior,
 }
 
 public record REnemy(

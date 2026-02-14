@@ -5,10 +5,9 @@ using static Godot.GD;
 
 namespace CosmicDoom.Scripts.Strategies.EnemyAI.Actions.Destroyer;
 
-public class DestroyerActionAttack : IAction {
+public class TurretActionAttack : IAction {
     public float Score(IEnemyControllable enemy) {
-        if (enemy is not Enemy node) return 0;
-        return node.CanAttack() ? 1.0f : 0.0f;
+        return enemy.CanAttack() ? 1.0f : 0.0f;
     }
 
     public void Execute(IEnemyControllable enemy, double delta) {

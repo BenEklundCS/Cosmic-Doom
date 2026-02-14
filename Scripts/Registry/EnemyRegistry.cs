@@ -20,11 +20,83 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                 return new UtilityAiStrategy(
                     new IBackgroundAction[] { new FacePlayer() },
                     new DestroyerActionMove(),
-                    new DestroyerActionAttack(),
+                    new Attack(),
                     new DestroyerActionPanic()
                 );
             },
             WeaponType.PlasmaGun
+        ),
+        [EnemyType.Turret] = new REnemy(
+            EnemyType.Turret,
+            GetSpriteFrames(EnemyType.Turret),
+            () => {
+                return new UtilityAiStrategy(
+                    new IBackgroundAction[] { new FacePlayer() },
+                    new TurretActionAttack()
+                );
+            },
+            WeaponType.PlasmaGun
+        ),
+        [EnemyType.Spider] = new REnemy(
+            EnemyType.Spider,
+            GetSpriteFrames(EnemyType.Spider),
+            () => {
+                return new UtilityAiStrategy(
+                    new IBackgroundAction[] { new FacePlayer() },
+                    new Attack(),
+                    new SpiderActionMove(),
+                    new SpiderActionJumpAway()
+                );
+            },
+            WeaponType.RocketLauncher
+        ),
+        [EnemyType.Ender] = new REnemy(
+            EnemyType.Ender,
+            GetSpriteFrames(EnemyType.Ender),
+            () => {
+                return new UtilityAiStrategy(
+                    new IBackgroundAction[] { new FacePlayer() },
+                    new Attack(),
+                    new EnderActionMove()
+                );
+            },
+            WeaponType.PlasmaGun
+        ),
+        [EnemyType.Exploder] = new REnemy(
+            EnemyType.Exploder,
+            GetSpriteFrames(EnemyType.Exploder),
+            () => {
+                return new UtilityAiStrategy(
+                    new IBackgroundAction[] { new FacePlayer() },
+                    new ExploderActionAttack(),
+                    new ExploderActionMove()
+                );
+            },
+            WeaponType.None
+        ),
+        [EnemyType.PlasmaBot] = new REnemy(
+            EnemyType.PlasmaBot,
+            GetSpriteFrames(EnemyType.PlasmaBot),
+            () => {
+                return new UtilityAiStrategy(
+                    new IBackgroundAction[] { new FacePlayer() },
+                    new Attack(),
+                    new PlasmaBotActionMove()
+                );
+            },
+            WeaponType.PlasmaGun
+        ),
+        [EnemyType.Warrior] = new REnemy(
+            EnemyType.Warrior,
+            GetSpriteFrames(EnemyType.Warrior),
+            () => {
+                return new UtilityAiStrategy(
+                    new IBackgroundAction[] { new FacePlayer() },
+                    new Attack(),
+                    new WarriorActionMove()
+                );
+            },
+            WeaponType.Knife
         )
     };
 
@@ -53,6 +125,7 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
 
         foreach (var animationName in spriteFrames.GetAnimationNames()) {
             var path = $"res://Assets/Sprites/Monsters/monster_{enemyName}_{animationName}.png";
+            if (!ResourceLoader.Exists(path)) continue;
             spriteFrames.AddFrame(animationName, Utils.LoadTrimmed(path));
         }
 

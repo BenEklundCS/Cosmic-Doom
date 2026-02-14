@@ -54,6 +54,7 @@ public partial class Enemy : Character, IEnemyControllable {
     }
 
     public override void _PhysicsProcess(double delta) {
+        if (_navigationAgent == null) return;
         if (_navigationAgent.IsNavigationFinished()) {
             Velocity = new Vector3(0, Velocity.Y, 0);
             _bobTime = 0.0f;
