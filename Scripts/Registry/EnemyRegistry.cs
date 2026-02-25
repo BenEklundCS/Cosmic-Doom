@@ -129,11 +129,19 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
 
         var enemyName = enemyType.ToString().ToLower();
 
+        var monstersPath = "res://Assets/Sprites/Monsters";
+
         foreach (var animationName in spriteFrames.GetAnimationNames()) {
-            var path = $"res://Assets/Sprites/Monsters/monster_{enemyName}_{animationName}.png";
+            var path = $"{monstersPath}/monster_{enemyName}_{animationName}.png";
             if (!ResourceLoader.Exists(path)) continue;
             spriteFrames.AddFrame(animationName, Utils.LoadTrimmed(path));
         }
+        
+        spriteFrames.AddAnimation("dying");
+        spriteFrames.SetAnimationLoop("dying", false);
+        spriteFrames.AddFrame("dying", Utils.LoadTrimmed($"{monstersPath}/monster_dying.png"));
+        spriteFrames.AddFrame("dying", Utils.LoadTrimmed($"{monstersPath}/monster_dead.png"));
+        spriteFrames.AddFrame("dying", Utils.LoadTrimmed($"{monstersPath}/enemy_dead.png"));
 
         return spriteFrames;
     }

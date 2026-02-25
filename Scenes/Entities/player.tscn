@@ -14,6 +14,8 @@ radius = 0.643886
 
 [node name="Player" instance=ExtResource("1_cvnsp")]
 script = ExtResource("2_cvnsp")
+HEALTH = 100
+ARMOR = 50
 
 [node name="Camera3D" type="Camera3D" parent="Head" index="1"]
 far = 10000.0
@@ -28,8 +30,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29647, 0)
 [node name="Controller" parent="." index="3" instance=ExtResource("5_ctrl")]
 
 [node name="HealthBar" parent="." index="5" instance=ExtResource("6_hbar")]
+offset_left = 1.0
+offset_top = 23.0
+offset_right = 1.0
+offset_bottom = 23.0
 
-[node name="PickupArea" type="Area3D" parent="." index="6"]
+[node name="ArmorBar" parent="." index="6" instance=ExtResource("6_hbar")]
+offset_left = 1.0
+offset_top = -8.0
+offset_right = 1.0
+offset_bottom = -8.0
+EmptyColor = Color(6.73831e-07, 0.568238, 0.849524, 1)
+HalfwayColor = Color(0, 0.568627, 0.85098, 1)
+FullColor = Color(0, 0.568627, 0.85098, 1)
+
+[node name="PickupArea" type="Area3D" parent="." index="7"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.327051, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PickupArea" index="0"]

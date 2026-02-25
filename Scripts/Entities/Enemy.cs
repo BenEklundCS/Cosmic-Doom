@@ -9,7 +9,7 @@ using Components;
 using Objects;
 using Registry;
 
-public enum EnemyState { Idle, Walking, Attacking }
+public enum EnemyState { Idle, Walking, Attacking, Dying }
 
 public partial class Enemy : Character, IEnemyControllable {
     [Signal] public delegate void TargetReachedEventHandler();
@@ -49,6 +49,9 @@ public partial class Enemy : Character, IEnemyControllable {
         _attackTimer = GetNode<Timer>("AttackTimer");
         _attackTimer.SetWaitTime(AttackDuration);
         _attackTimer.Timeout += OnAttackTimerTimeout;
+
+        OnDeath += OnSelfDeath;
+        _animatedSprite.AnimationFinished += OnAnimationFinished;
         
         AddToGroup("enemies");
 
@@ -107,6 +110,7 @@ public partial class Enemy : Character, IEnemyControllable {
         _flashRed.Trigger();
         base.Hit(damage);
     }
+    
 
     private void OnAttackTimerTimeout() {
         SetState(_navigationAgent.IsNavigationFinished() ? EnemyState.Idle : EnemyState.Walking);
@@ -123,6 +127,7 @@ public partial class Enemy : Character, IEnemyControllable {
         _animatedSprite.Play(newState switch {
             EnemyState.Walking => "walk",
             EnemyState.Attacking => "attack",
+            EnemyState.Dying => "dying",
             _ => "idle"
         });
     }
@@ -139,6 +144,16 @@ public partial class Enemy : Character, IEnemyControllable {
             var pos = _animatedSprite.Position;
             pos.Y = _spriteBaseY;
             _animatedSprite.Position = pos;
+        }
+    }
+
+    private void OnSelfDeath() {
+        SetState(EnemyState.Dying);
+    }
+
+    private void OnAnimationFinished() {
+        if (_state == EnemyState.Dying) {
+            QueueFree();
         }
     }
 }

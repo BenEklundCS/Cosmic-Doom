@@ -28,6 +28,16 @@ public partial class PickupRegistry : Node, IRegistry<PickupType, RPickup> {
             PickupType.Health,
             PickupCategory.Life,
             Utils.LoadTrimmed("res://Assets/Sprites/Items/item_health.png")
+        ),
+        [PickupType.Armor] = new RPickup(
+            PickupType.Armor,
+            PickupCategory.Life,
+            Utils.LoadTrimmed("res://Assets/Sprites/Items/item_teleport.png")
+        ),
+        [PickupType.Keycard] = new RPickup(
+            PickupType.Keycard,
+            PickupCategory.Default,
+            Utils.LoadTrimmed("res://Assets/Sprites/Items/item_card.png")
         )
     };
 

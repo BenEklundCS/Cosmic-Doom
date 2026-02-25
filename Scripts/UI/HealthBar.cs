@@ -3,6 +3,9 @@ namespace CosmicDoom.Scripts.UI;
 using Godot;
 
 public partial class HealthBar : Control {
+    [Export] public Color EmptyColor = Colors.Red;
+    [Export] public Color HalfwayColor = Colors.Yellow;
+    [Export] public Color FullColor = Colors.Green;
     private ColorRect _fill;
     private Label _label;
 
@@ -11,6 +14,7 @@ public partial class HealthBar : Control {
 
     public override void _Ready() {
         _fill = GetNode<ColorRect>("Fill");
+        _fill.Color = FullColor;
         _label = GetNode<Label>("Label");
     }
 
@@ -20,8 +24,8 @@ public partial class HealthBar : Control {
         _fill.OffsetRight = Margin + BarWidth * ratio;
 
         _fill.Color = ratio > 0.5f
-            ? Colors.Green.Lerp(Colors.Yellow, (1f - ratio) * 2f)
-            : Colors.Yellow.Lerp(Colors.Red, (0.5f - ratio) * 2f);
+            ? FullColor.Lerp(HalfwayColor, (1f - ratio) * 2f)
+            : HalfwayColor.Lerp(EmptyColor, (0.5f - ratio) * 2f);
 
         _label.Text = health.ToString();
     }

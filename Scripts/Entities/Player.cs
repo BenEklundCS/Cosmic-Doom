@@ -25,6 +25,7 @@ public partial class Player : Character, IControllable {
     private Camera3D _camera;
     private Weapon _weapon;
     private HealthBar _healthBar;
+    private HealthBar _armorBar;
     private Area3D _pickupArea;
     
     [Export] public float MouseSensitivity = 0.005f;
@@ -33,18 +34,22 @@ public partial class Player : Character, IControllable {
         _weapon = GetNode<Weapon>("Weapon");
         _camera = GetNode<Camera3D>("Head/Camera3D");
         _healthBar = GetNode<HealthBar>("HealthBar");
+        _armorBar = GetNode<HealthBar>("ArmorBar");
         _pickupArea = GetNode<Area3D>("PickupArea");
         _pickupArea.BodyEntered += OnBodyEnteredPickupArea;
         
         ReadyWeapons();
         
         AddToGroup("players");
+
+        OnDeath += OnSelfDeath;
         
         base._Ready();
     }
 
     public override void _Process(double delta) {
-        _healthBar.SetHealth(HEALTH, 100);
+        _healthBar.SetHealth(HEALTH, MAX_HEALTH);
+        _armorBar.SetHealth(ARMOR, MAX_ARMOR);
         base._Process(delta);
     }
 
@@ -130,7 +135,7 @@ public partial class Player : Character, IControllable {
                 break;
         }
 
-        pickup.QueueFree();
+        pickup.Consume();
     }
 
     private void PickupLife(Pickup pickup) {
@@ -139,8 +144,16 @@ public partial class Player : Character, IControllable {
                 HEALTH = MAX_HEALTH;
                 break;
             }
+            case PickupType.Armor: {
+                ARMOR = MAX_ARMOR;
+                break;
+            }
             default:
                 break;
         }
+    }
+
+    private void OnSelfDeath() {
+        QueueFree();
     }
 }
