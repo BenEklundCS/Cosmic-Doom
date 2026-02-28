@@ -200,8 +200,27 @@ public partial class Enemy : Character, IEnemyControllable {
     }
 
     private void OnSelfDeath() {
+        if (_state == EnemyState.Dying) return;
         SetState(EnemyState.Dying);
+        DropAmmo();
     }
+
+    private void DropAmmo() {
+        foreach (var type in _rEnemy.PICKUPS) {
+            var shouldDrop = RandRange(0, 4) == 1;
+            if (!shouldDrop) continue;
+            var pickup = (Pickup)_pickupFactory.Spawn();
+            pickup.Type = type;
+            GetTree().Root.AddChild(pickup);
+            var offset = new Vector3(
+                RandRange(-8, 8),
+                0,
+                RandRange(-8, 8)
+            );
+            pickup.GlobalPosition = GlobalPosition + offset;
+        }
+    }
+
 
     private void OnAnimationFinished() {
         if (_state == EnemyState.Dying) {
