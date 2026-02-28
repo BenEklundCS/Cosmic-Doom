@@ -19,6 +19,8 @@ public partial class Enemy : Character, IEnemyControllable {
     [Export] public float MoveRange = 500.0f;
     [Export] public Vector2 MoveThinkingTimeRange = new (1.0f, 5.0f);
     [Export] public float AttackDuration = 0.08f;
+    [Export] public float ReactionTime = 1.0f;
+    [Export] public float RememberTime = 3.0f;
     [Export] public float BobAmplitude = 0.06f;
     [Export] public float BobFrequency = 10.0f;
     [Export] public int MagazineSize = 3;
@@ -29,6 +31,9 @@ public partial class Enemy : Character, IEnemyControllable {
     private AnimatedSprite3D _animatedSprite;
     private FlashRed _flashRed;
     private Timer _attackTimer;
+    private Timer _reactionTimer;
+    private Timer _rememberTimer;
+    private bool _hasRecognizedPlayer = false;
     private float _bobTime = 0.0f;
     private float _spriteBaseY;
     private EnemyState _state = EnemyState.Idle;
@@ -49,6 +54,12 @@ public partial class Enemy : Character, IEnemyControllable {
         _attackTimer = GetNode<Timer>("AttackTimer");
         _attackTimer.SetWaitTime(AttackDuration);
         _attackTimer.Timeout += OnAttackTimerTimeout;
+        _reactionTimer = GetNode<Timer>("ReactionTimer");
+        _reactionTimer.SetWaitTime(ReactionTime);
+        _reactionTimer.Timeout += OnReactionTimerTimeout;
+        _rememberTimer = GetNode<Timer>("RememberTimer");
+        _rememberTimer.SetWaitTime(RememberTime);
+        _rememberTimer.Timeout += OnRememberTimerTimeout;
 
         OnDeath += OnSelfDeath;
         _animatedSprite.AnimationFinished += OnAnimationFinished;
@@ -56,6 +67,18 @@ public partial class Enemy : Character, IEnemyControllable {
         AddToGroup("enemies");
 
         base._Ready();
+    }
+
+    public override void _Process(double delta) {
+        // if we can currently see, react (and stop the remember timer so the bot won't "forget" while he's reacting)
+        var canCurrentlySee = Ray.GetCollider() is Player;
+        if (canCurrentlySee && _reactionTimer.IsStopped()) {
+            _reactionTimer.Start();
+            _rememberTimer.Stop();
+        }
+        else {
+            _rememberTimer.Start();
+        }
     }
 
     public override void _PhysicsProcess(double delta) {
@@ -102,8 +125,7 @@ public partial class Enemy : Character, IEnemyControllable {
     }
 
     public bool CanAttack() {
-        var playerInLineOfSight = Ray.GetCollider() is Player;
-        return playerInLineOfSight && !_weapon.OnCooldown();
+        return CanSeePlayer() && _hasRecognizedPlayer && !_weapon.OnCooldown();
     }
 
     public override void Hit(int damage) {
@@ -111,9 +133,19 @@ public partial class Enemy : Character, IEnemyControllable {
         base.Hit(damage);
     }
     
-
     private void OnAttackTimerTimeout() {
         SetState(_navigationAgent.IsNavigationFinished() ? EnemyState.Idle : EnemyState.Walking);
+    }
+
+    private void OnReactionTimerTimeout() {
+        // neuron has fired, if we still see them set true
+        if (CanSeePlayer()) {
+            _hasRecognizedPlayer = true;
+        }
+    }
+
+    private void OnRememberTimerTimeout() {
+        _hasRecognizedPlayer = false; // no longer remembers player
     }
 
     private void OnTargetReached() {
@@ -155,5 +187,9 @@ public partial class Enemy : Character, IEnemyControllable {
         if (_state == EnemyState.Dying) {
             QueueFree();
         }
+    }
+
+    private bool CanSeePlayer() {
+        return Ray.GetCollider() is Player;
     }
 }

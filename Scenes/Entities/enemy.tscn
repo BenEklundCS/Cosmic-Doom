@@ -38,3 +38,9 @@ sprite_frames = SubResource("SpriteFrames_ygq1y")
 one_shot = true
 
 [node name="AiController" parent="." index="7" instance=ExtResource("6_aictl")]
+
+[node name="ReactionTimer" type="Timer" parent="." index="9"]
+one_shot = true
+
+[node name="RememberTimer" type="Timer" parent="." index="10"]
+wait_time = 3.0
