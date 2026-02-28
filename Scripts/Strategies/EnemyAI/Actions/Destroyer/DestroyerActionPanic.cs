@@ -6,28 +6,27 @@ namespace CosmicDoom.Scripts.Strategies.EnemyAI.Actions.Destroyer;
 
 public class DestroyerActionPanic : IAction {
     private bool _inPanic = false;
+
     public float Score(IEnemyControllable enemy) {
-        if (enemy is not Enemy node) return 0.0f;
-        if (node.HEALTH <= 30) {
-            return 1.0f;
-        }
-        else {
+        var hp = enemy.HEALTH_PERCENT;
+        if (hp >= 0.3f) {
             _inPanic = false;
-            return 0.0f;
+            return 0f;
         }
+        // Exponential ramp — spikes hard as health drops toward 0
+        return Mathf.Pow(1f - (hp / 0.3f), 2f);
     }
 
     public void Execute(IEnemyControllable enemy, double delta) {
         if (_inPanic) return;
         if (enemy is not Enemy node) return;
-        var moveTargetPos = AiUtils.GetMovePositionWhereHidden(node);
-        node.MoveTo(moveTargetPos);
+
+        enemy.MoveTo(AiUtils.GetMovePositionWhereHidden(node));
         node.TargetReached += OnTargetReached;
         _inPanic = true;
     }
 
     private void OnTargetReached() {
         _inPanic = false;
-        
     }
 }

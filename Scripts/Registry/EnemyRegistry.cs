@@ -30,7 +30,8 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                     new DestroyerActionPanic()
                 );
             },
-            WeaponType.PlasmaGun
+            WeaponType.PlasmaGun,
+            [PickupType.Plasma, PickupType.Armor, PickupType.Health]
         ),
         [EnemyType.Turret] = new REnemy(
             EnemyType.Turret,
@@ -41,7 +42,8 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                     new TurretActionAttack()
                 );
             },
-            WeaponType.PlasmaGun
+            WeaponType.PlasmaGun,
+            [PickupType.Plasma, PickupType.Health]
         ),
         [EnemyType.Spider] = new REnemy(
             EnemyType.Spider,
@@ -54,7 +56,8 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                     new SpiderActionJumpAway()
                 );
             },
-            WeaponType.RocketLauncher
+            WeaponType.RocketLauncher,
+            [PickupType.Rockets, PickupType.Armor]
         ),
         [EnemyType.Ender] = new REnemy(
             EnemyType.Ender,
@@ -66,7 +69,8 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                     new EnderActionMove()
                 );
             },
-            WeaponType.PlasmaGun
+            WeaponType.PlasmaGun,
+            [PickupType.Health, PickupType.Plasma]
         ),
         [EnemyType.Exploder] = new REnemy(
             EnemyType.Exploder,
@@ -78,7 +82,8 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                     new ExploderActionMove()
                 );
             },
-            WeaponType.None
+            WeaponType.None,
+            [PickupType.Armor, PickupType.Health]
         ),
         [EnemyType.PlasmaBot] = new REnemy(
             EnemyType.PlasmaBot,
@@ -90,7 +95,8 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                     new PlasmaBotActionMove()
                 );
             },
-            WeaponType.PlasmaGun
+            WeaponType.PlasmaGun,
+            [PickupType.Plasma, PickupType.Armor]
         ),
         [EnemyType.Warrior] = new REnemy(
             EnemyType.Warrior,
@@ -102,7 +108,8 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                     new WarriorActionMove()
                 );
             },
-            WeaponType.Knife
+            WeaponType.Knife,
+            [PickupType.Health]
         )
     };
 

@@ -23393,15 +23393,16 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.2382
 [node name="DoorFrame3" parent="Room2" instance=ExtResource("16_m21gd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.9913, -1.03438, 20.7528)
 
-[node name="DoorFrame4" parent="Room2" instance=ExtResource("16_m21gd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.9913, -1.03438, 20.2537)
-
 [node name="TriggerableDoor" parent="Room2" node_paths=PackedStringArray("Keycard") instance=ExtResource("19_mewld")]
 transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 48.2505, -1.03069, 7.01369)
 Keycard = NodePath("../../Pickup")
 
 [node name="DoorFrame5" parent="Room2" instance=ExtResource("16_m21gd")]
 transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 48.7489, -1.01171, 7.013)
+
+[node name="TriggerableDoor2" parent="Room2" instance=ExtResource("19_mewld")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 37.9925, -1.02545, 20.2687)
+EnemyGroupName = &"door1group"
 
 [node name="Room3" type="Node3D" parent="."]
 
@@ -24328,6 +24329,10 @@ materials = Array[Material]([ExtResource("8_r3v4y")])
 [node name="DoorFrame" parent="Room5" instance=ExtResource("16_m21gd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.9996, -8.04607, -44.8408)
 
+[node name="TriggerableDoor" parent="Room5" instance=ExtResource("19_mewld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.9828, -8.00943, -44.2483)
+EnemyGroupName = &"door2group"
+
 [node name="AiPoints" type="Node" parent="."]
 
 [node name="Point" parent="AiPoints" instance=ExtResource("20_qu7dt")]
@@ -24355,28 +24360,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.5014, -0.484409, -1.58691)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.4772, 0.847044, 8.24837)
 Type = 6
 
-[node name="Enemy4" parent="." instance=ExtResource("21_diuf7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.9587, 0, 7.48072)
-
-[node name="Enemy5" parent="." instance=ExtResource("21_diuf7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.9587, 0, 12.263)
-Type = 1
-
 [node name="DoorFrame3" parent="." instance=ExtResource("16_m21gd")]
 transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 25.7528, -7.88153, 9.93639)
-
-[node name="Enemy9" parent="." instance=ExtResource("21_diuf7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.2495, -5.40542, -23.852)
-Type = 1
-
-[node name="Enemy11" parent="." instance=ExtResource("21_diuf7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.0739, -5.40542, -28.9173)
-Type = 1
-MoveRange = 2000.0
-
-[node name="Enemy12" parent="." instance=ExtResource("21_diuf7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.0739, -5.40542, -13.3992)
-Type = 1
 
 [node name="block0" type="Node3D" parent="."]
 script = ExtResource("2_rjhlg")
@@ -24385,3 +24370,40 @@ mesh_vector_data = SubResource("Resource_3t6c0")
 [node name="block1" type="Node3D" parent="."]
 script = ExtResource("2_rjhlg")
 mesh_vector_data = SubResource("Resource_1s4m2")
+
+[node name="Door1Group" type="Node3D" parent="."]
+
+[node name="Enemy5" parent="Door1Group" instance=ExtResource("21_diuf7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.7091, 0.585062, 14.4429)
+CustomGroupName = &"door1group"
+
+[node name="Enemy4" parent="Door1Group" instance=ExtResource("21_diuf7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.9587, 0, 7.48072)
+CustomGroupName = &"door1group"
+
+[node name="Enemy6" parent="Door1Group" instance=ExtResource("21_diuf7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.9587, 0, -0.632607)
+CustomGroupName = &"door1group"
+
+[node name="Door2Group" type="Node3D" parent="."]
+
+[node name="Enemy12" parent="Door2Group" instance=ExtResource("21_diuf7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.0739, -5.40542, -13.3992)
+Type = 1
+CustomGroupName = &"door2group"
+
+[node name="Enemy11" parent="Door2Group" instance=ExtResource("21_diuf7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.0739, -5.40542, -28.9173)
+Type = 1
+CustomGroupName = &"door2group"
+MoveRange = 2000.0
+
+[node name="Enemy10" parent="Door2Group" instance=ExtResource("21_diuf7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.2495, -5.40542, -11.846)
+Type = 1
+CustomGroupName = &"door2group"
+
+[node name="Enemy9" parent="Door2Group" instance=ExtResource("21_diuf7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.2495, -5.40542, -23.852)
+Type = 1
+CustomGroupName = &"door2group"

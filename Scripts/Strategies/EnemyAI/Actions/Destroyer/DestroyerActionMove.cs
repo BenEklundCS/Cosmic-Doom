@@ -7,19 +7,24 @@ using Interfaces;
 using Entities;
 
 public class DestroyerActionMove : IAction {
-    private float _moveTimer = 2.0f;
+    private float _moveTimer;
+    private const float PreferredRange = 300f;
+
     public float Score(IEnemyControllable enemy) {
-        return 0.7f;
+        if (!enemy.HAS_RECOGNIZED_PLAYER) return 0f;
+        if (enemy.CanAttack()) return 0f;
+
+        var dist = enemy.DISTANCE_TO_PLAYER;
+        var distError = Mathf.Abs(dist - PreferredRange) / PreferredRange;
+        return Mathf.Clamp(distError * 0.85f, 0f, 0.85f);
     }
 
     public void Execute(IEnemyControllable enemy, double delta) {
         if (enemy is not Enemy node) return;
 
         _moveTimer -= (float)delta;
-
-        if (_moveTimer <= 0.0f) {
-            var moveTargetPos = AiUtils.GetMovePositionWherePlayerVisible(node);
-            enemy.MoveTo(moveTargetPos);
+        if (_moveTimer <= 0f) {
+            enemy.MoveTo(AiUtils.GetMovePositionWherePlayerVisible(node));
             _moveTimer = Utils.INSTANCE.NextFloat(node.MoveThinkingTimeRange);
         }
     }

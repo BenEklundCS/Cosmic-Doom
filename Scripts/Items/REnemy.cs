@@ -19,5 +19,6 @@ public record REnemy(
     EnemyType TYPE,
     SpriteFrames SPRITE_FRAMES,
     Func<IEnemyAiStrategy> STRATEGY,
-    WeaponType WEAPON_TYPE
+    WeaponType WEAPON_TYPE,
+    PickupType[] PICKUPS
 );

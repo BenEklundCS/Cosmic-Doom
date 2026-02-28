@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace CosmicDoom.Scripts.Entities;
 
 using Godot;
@@ -13,9 +15,9 @@ public enum EnemyState { Idle, Walking, Attacking, Dying }
 
 public partial class Enemy : Character, IEnemyControllable {
     [Signal] public delegate void TargetReachedEventHandler();
-
     [Export] public bool Enabled = true;
     [Export] public EnemyType Type;
+    [Export] public StringName CustomGroupName;
     [Export] public float MoveRange = 500.0f;
     [Export] public Vector2 MoveThinkingTimeRange = new (1.0f, 5.0f);
     [Export] public float AttackDuration = 0.08f;
@@ -25,6 +27,9 @@ public partial class Enemy : Character, IEnemyControllable {
     [Export] public float BobFrequency = 10.0f;
     [Export] public int MagazineSize = 3;
     [Export] public int MaxAmmo = 300;
+
+    private Pickup _pickupFactory = new();
+    private REnemy _rEnemy;
     private RWeapon _weaponData;
     private Weapon _weapon;
     private NavigationAgent3D _navigationAgent;
@@ -38,16 +43,24 @@ public partial class Enemy : Character, IEnemyControllable {
     private float _spriteBaseY;
     private EnemyState _state = EnemyState.Idle;
 
+    public float DISTANCE_TO_PLAYER => NEAREST_PLAYER != null 
+        ? GlobalPosition.DistanceTo(NEAREST_PLAYER.GlobalPosition) 
+        : float.MaxValue;
+    public Player NEAREST_PLAYER { get; private set; }
+    public bool IS_MOVING => _state == EnemyState.Walking;
+    public bool HAS_RECOGNIZED_PLAYER => _hasRecognizedPlayer;
+    public float HEALTH_PERCENT => (float)HEALTH / MAX_HEALTH;
+
     public override void _Ready() {
-        var data = EnemyRegistry.INSTANCE.Get(Type);
-        var baseWeapon = WeaponRegistry.INSTANCE.Get(data.WEAPON_TYPE);
+        _rEnemy = EnemyRegistry.INSTANCE.Get(Type);
+        var baseWeapon = WeaponRegistry.INSTANCE.Get(_rEnemy.WEAPON_TYPE);
         _weaponData = baseWeapon with { AMMO = MagazineSize, MAX_AMMO = MaxAmmo };
         _weapon = GetNode<Weapon>("Weapon");
         _weapon.Equip(_weaponData);
         _navigationAgent = GetNode<NavigationAgent3D>("NavigationAgent3D");
         _navigationAgent.TargetReached += OnTargetReached;
         _animatedSprite = GetNode<AnimatedSprite3D>("AnimatedSprite3D");
-        _animatedSprite.SpriteFrames = data.SPRITE_FRAMES;
+        _animatedSprite.SpriteFrames = _rEnemy.SPRITE_FRAMES;
         _animatedSprite.Play("idle");
         _spriteBaseY = _animatedSprite.Position.Y;
         _flashRed = GetNode<FlashRed>("FlashRed");
@@ -65,11 +78,17 @@ public partial class Enemy : Character, IEnemyControllable {
         _animatedSprite.AnimationFinished += OnAnimationFinished;
         
         AddToGroup("enemies");
+        if (CustomGroupName != null) AddToGroup(CustomGroupName);
 
         base._Ready();
     }
 
     public override void _Process(double delta) {
+        NEAREST_PLAYER = GetTree()
+            .GetNodesInGroup("players")
+            .Cast<Player>()
+            .MinBy(player => GlobalPosition.DistanceTo(player.GlobalPosition));
+        
         // if we can currently see, react (and stop the remember timer so the bot won't "forget" while he's reacting)
         var canCurrentlySee = Ray.GetCollider() is Player;
         if (canCurrentlySee && _reactionTimer.IsStopped()) {
@@ -129,6 +148,7 @@ public partial class Enemy : Character, IEnemyControllable {
     }
 
     public override void Hit(int damage) {
+        if (_state == EnemyState.Dying) return;
         _flashRed.Trigger();
         base.Hit(damage);
     }
@@ -188,7 +208,7 @@ public partial class Enemy : Character, IEnemyControllable {
             QueueFree();
         }
     }
-
+    
     private bool CanSeePlayer() {
         return Ray.GetCollider() is Player;
     }
