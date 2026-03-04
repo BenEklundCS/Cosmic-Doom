@@ -31,7 +31,10 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                 );
             },
             WeaponType.PlasmaGun,
-            [PickupType.Plasma, PickupType.Armor, PickupType.Health]
+            [PickupType.Plasma, PickupType.Armor, PickupType.Health],
+            Load<AudioStreamWav>("res://Sounds/Guns/Bullet/Bullet Hit Heavy Armor 001.wav"),
+            Load<AudioStreamWav>("res://Sounds/Enemies/Sci-Fi/Robotic/Robotic Frustration.wav"),
+            Load<AudioStreamWav>("res://Sounds/Enemies/Sci-Fi/Robotic/Robotic Surprise.wav")
         ),
         [EnemyType.Turret] = new REnemy(
             EnemyType.Turret,
@@ -43,7 +46,10 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                 );
             },
             WeaponType.PlasmaGun,
-            [PickupType.Plasma, PickupType.Health]
+            [PickupType.Plasma, PickupType.Health],
+            null,
+            null,
+            null
         ),
         [EnemyType.Spider] = new REnemy(
             EnemyType.Spider,
@@ -57,7 +63,10 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                 );
             },
             WeaponType.RocketLauncher,
-            [PickupType.Rockets, PickupType.Armor]
+            [PickupType.Rockets, PickupType.Armor],
+            null,
+            null,
+            null
         ),
         [EnemyType.Ender] = new REnemy(
             EnemyType.Ender,
@@ -70,7 +79,10 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                 );
             },
             WeaponType.PlasmaGun,
-            [PickupType.Health, PickupType.Plasma]
+            [PickupType.Health, PickupType.Plasma],
+            null,
+            null,
+            null
         ),
         [EnemyType.Exploder] = new REnemy(
             EnemyType.Exploder,
@@ -83,7 +95,10 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                 );
             },
             WeaponType.None,
-            [PickupType.Armor, PickupType.Health]
+            [PickupType.Armor, PickupType.Health],
+            null,
+            null,
+            null
         ),
         [EnemyType.PlasmaBot] = new REnemy(
             EnemyType.PlasmaBot,
@@ -96,7 +111,10 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                 );
             },
             WeaponType.PlasmaGun,
-            [PickupType.Plasma, PickupType.Armor]
+            [PickupType.Plasma, PickupType.Armor],
+            null,
+            null,
+            null
         ),
         [EnemyType.Warrior] = new REnemy(
             EnemyType.Warrior,
@@ -109,7 +127,10 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
                 );
             },
             WeaponType.Knife,
-            [PickupType.Health]
+            [PickupType.Health],
+            null,
+            null,
+            null
         )
     };
 

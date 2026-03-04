@@ -44,3 +44,9 @@ one_shot = true
 
 [node name="RememberTimer" type="Timer" parent="." index="10"]
 wait_time = 3.0
+
+[node name="OnHitSound" type="AudioStreamPlayer3D" parent="." index="11"]
+
+[node name="OnDeathSound" type="AudioStreamPlayer3D" parent="." index="12"]
+
+[node name="OnRecognitionSound" type="AudioStreamPlayer3D" parent="." index="13"]

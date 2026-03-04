@@ -38,6 +38,9 @@ public partial class Enemy : Character, IEnemyControllable {
     private Timer _attackTimer;
     private Timer _reactionTimer;
     private Timer _rememberTimer;
+    private AudioStreamPlayer3D _onHitSound;
+    private AudioStreamPlayer3D _onDeathSound;
+    private AudioStreamPlayer3D _onRecognitionSound;
     private float _bobTime = 0.0f;
     private float _spriteBaseY;
     private EnemyState _state = EnemyState.Idle;
@@ -66,6 +69,12 @@ public partial class Enemy : Character, IEnemyControllable {
         _attackTimer = GetNode<Timer>("AttackTimer");
         _attackTimer.SetWaitTime(AttackDuration);
         _attackTimer.Timeout += OnAttackTimerTimeout;
+        _onHitSound = GetNode<AudioStreamPlayer3D>("OnHitSound");
+        _onHitSound.Stream = _rEnemy.ON_HIT_SOUND;
+        _onDeathSound = GetNode<AudioStreamPlayer3D>("OnDeathSound");
+        _onDeathSound.Stream = _rEnemy.ON_DEATH_SOUND;
+        _onRecognitionSound = GetNode<AudioStreamPlayer3D>("OnRecognitionSound");
+        _onRecognitionSound.Stream = _rEnemy.ON_RECOGNITION_SOUND;
         _reactionTimer = GetNode<Timer>("ReactionTimer");
         _reactionTimer.SetWaitTime(ReactionTime);
         _reactionTimer.Timeout += OnReactionTimerTimeout;
@@ -90,11 +99,11 @@ public partial class Enemy : Character, IEnemyControllable {
         
         // if we can currently see, react (and stop the remember timer so the bot won't "forget" while he's reacting)
         var canCurrentlySee = Ray.GetCollider() is Player;
-        if (canCurrentlySee && _reactionTimer.IsStopped()) {
+        if (canCurrentlySee && !HAS_RECOGNIZED_PLAYER && _reactionTimer.IsStopped()) {
             _reactionTimer.Start();
             _rememberTimer.Stop();
         }
-        else {
+        else if (!canCurrentlySee && HAS_RECOGNIZED_PLAYER) {
             _rememberTimer.Start();
         }
     }
@@ -149,6 +158,7 @@ public partial class Enemy : Character, IEnemyControllable {
     public override void Hit(int damage) {
         if (_state == EnemyState.Dying) return;
         _flashRed.Trigger();
+        _onHitSound.Play();
         base.Hit(damage);
     }
     
@@ -159,6 +169,7 @@ public partial class Enemy : Character, IEnemyControllable {
     private void OnReactionTimerTimeout() {
         // neuron has fired, if we still see them set true
         if (CanSeePlayer()) {
+            _onRecognitionSound.Play();
             HAS_RECOGNIZED_PLAYER = true;
         }
     }
@@ -201,6 +212,7 @@ public partial class Enemy : Character, IEnemyControllable {
     private void OnSelfDeath() {
         if (_state == EnemyState.Dying) return;
         SetState(EnemyState.Dying);
+        _onDeathSound.Play();
         DropAmmo();
     }
 
