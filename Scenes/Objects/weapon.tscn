@@ -11,8 +11,10 @@ outline_color = Color(0, 0, 0, 1)
 [node name="Weapon" type="Node3D"]
 script = ExtResource("1_58sax")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="UseAudio" type="AudioStreamPlayer3D" parent="."]
 max_db = 0.0
+
+[node name="EquipAudio" type="AudioStreamPlayer3D" parent="."]
 
 [node name="CooldownTimer" type="Timer" parent="."]
 one_shot = true

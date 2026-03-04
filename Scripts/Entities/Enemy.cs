@@ -38,7 +38,6 @@ public partial class Enemy : Character, IEnemyControllable {
     private Timer _attackTimer;
     private Timer _reactionTimer;
     private Timer _rememberTimer;
-    private bool _hasRecognizedPlayer = false;
     private float _bobTime = 0.0f;
     private float _spriteBaseY;
     private EnemyState _state = EnemyState.Idle;
@@ -48,7 +47,7 @@ public partial class Enemy : Character, IEnemyControllable {
         : float.MaxValue;
     public Player NEAREST_PLAYER { get; private set; }
     public bool IS_MOVING => _state == EnemyState.Walking;
-    public bool HAS_RECOGNIZED_PLAYER => _hasRecognizedPlayer;
+    public bool HAS_RECOGNIZED_PLAYER { get; private set; } = false;
     public float HEALTH_PERCENT => (float)HEALTH / MAX_HEALTH;
 
     public override void _Ready() {
@@ -144,7 +143,7 @@ public partial class Enemy : Character, IEnemyControllable {
     }
 
     public bool CanAttack() {
-        return CanSeePlayer() && _hasRecognizedPlayer && !_weapon.OnCooldown();
+        return CanSeePlayer() && HAS_RECOGNIZED_PLAYER && !_weapon.OnCooldown();
     }
 
     public override void Hit(int damage) {
@@ -160,12 +159,12 @@ public partial class Enemy : Character, IEnemyControllable {
     private void OnReactionTimerTimeout() {
         // neuron has fired, if we still see them set true
         if (CanSeePlayer()) {
-            _hasRecognizedPlayer = true;
+            HAS_RECOGNIZED_PLAYER = true;
         }
     }
 
     private void OnRememberTimerTimeout() {
-        _hasRecognizedPlayer = false; // no longer remembers player
+        HAS_RECOGNIZED_PLAYER = false; // no longer remembers player
     }
 
     private void OnTargetReached() {
@@ -220,8 +219,7 @@ public partial class Enemy : Character, IEnemyControllable {
             pickup.GlobalPosition = GlobalPosition + offset;
         }
     }
-
-
+    
     private void OnAnimationFinished() {
         if (_state == EnemyState.Dying) {
             QueueFree();

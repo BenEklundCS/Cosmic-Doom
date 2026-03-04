@@ -25,10 +25,12 @@ public record RWeapon(
     AtlasTexture TEXTURE,
     AtlasTexture ON_USE_TEXTURE,
     AtlasTexture ICON,
-    AudioStreamWav[] AUDIO_STREAMS,
+    AudioStreamWav[] ON_USE_AUDIO_STREAMS,
+    AudioStreamWav ON_EQUIP_STREAM,
     IWeaponStrategy STRATEGY,
+    bool IS_MELEE = false,
     Vector3? SHOT_OFFSET = null
 ) {
     // Default offset: down and forward from camera to gun barrel
-    public Vector3 ShotOffset => SHOT_OFFSET ?? new Vector3(0, -0.3f, -0.5f);
+    public Vector3 SHOT_OFFSET_ => SHOT_OFFSET ?? new Vector3(0, -0.3f, -0.5f);
 }

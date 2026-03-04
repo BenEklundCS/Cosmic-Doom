@@ -7,6 +7,7 @@ public partial class Laser : Projectile {
     [Export] public float Duration = 2.0f;
 
     public override void _Ready() {
+        base._Ready();
         _timer = GetNode<Timer>("Timer");
         _timer.Timeout += OnTimerTimeout;
     }

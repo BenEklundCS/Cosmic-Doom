@@ -8,6 +8,11 @@ using Context;
 public partial class Projectile : Node3D, IProjectile<Projectile> {
     protected RAttackContext Context;
     protected Vector3 Velocity;
+    protected AudioStreamPlayer3D OnHitAudio;
+
+    public override void _Ready() {
+        OnHitAudio = GetNode<AudioStreamPlayer3D>("OnHitAudio");
+    }
 
     public void SetContext(RAttackContext context) {
         Context = context;

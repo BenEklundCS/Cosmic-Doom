@@ -14,6 +14,7 @@ using UI;
 public partial class Player : Character, IControllable {
     private readonly WeaponType[] _defaultWeapons = new[] {
         WeaponType.None,
+        WeaponType.Knife,
         WeaponType.PlasmaGun,
         WeaponType.Shotgun,
         WeaponType.RocketLauncher

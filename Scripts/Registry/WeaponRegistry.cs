@@ -14,7 +14,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
         [WeaponType.Knife] = new RWeapon(
             WeaponType.Knife,
             PickupType.None,
-            0,
+            25,
             false,
             0,
             0,
@@ -22,8 +22,13 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             Utils.LoadTrimmed("res://Assets/Sprites/Weapons/weapon_knife.png"),
             null,
             Utils.LoadTrimmed("res://Assets/Sprites/Icons/knife_icon_1.png"),
-            [],
-            new MeleeStrategy()
+            [
+                Load<AudioStreamWav>("res://Sounds/Guns/Battle Knife/Combat Knife Out 003.wav"),
+                Load<AudioStreamWav>("res://Sounds/Guns/Battle Knife/Combat Knife Out 001.wav"),
+            ],
+            Load<AudioStreamWav>("res://Sounds/Guns/Battle Knife/Combat Knife Out 002.wav"),
+            new MeleeStrategy(),
+            IS_MELEE: true
         ),
         [WeaponType.MachineGun] = new RWeapon(
             WeaponType.MachineGun,
@@ -37,6 +42,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             Utils.LoadTrimmed("res://Assets/Sprites/Effects/effect_fireball.png"),
             Utils.LoadTrimmed("res://Assets/Sprites/Icons/submachinegun_icon_5.png"),
             [],
+            Load<AudioStreamWav>("res://Sounds/Guns/Ammo/Take Ammo C 002.wav"),
             new HitscanStrategy()
         ),
         [WeaponType.PlasmaGun] = new RWeapon(
@@ -55,12 +61,13 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
                 Load<AudioStreamWav>("res://Sounds/Guns/Gunshots/243 Rifle/243 Rifle A 002.wav"),
                 Load<AudioStreamWav>("res://Sounds/Guns/Gunshots/243 Rifle/243 Rifle A 003.wav"),
             ],
+            Load<AudioStreamWav>("res://Sounds/Guns/Ammo/Take Ammo C 002.wav"),
             new ProjectileStrategy(projectile: new PlasmaBall(), projectileVelocity: 25f)
         ),
         [WeaponType.RocketLauncher] = new RWeapon(
             WeaponType.RocketLauncher,
             PickupType.Rockets,
-            10,
+            75,
             true,
             1,
             5,
@@ -68,7 +75,10 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             Utils.LoadTrimmed("res://Assets/Sprites/Weapons/weapon_rocketlauncher.png"),
             Utils.LoadTrimmed("res://Assets/Sprites/Effects/effect_fireball.png"),
             Utils.LoadTrimmed("res://Assets/Sprites/Icons/rocket_launcher_icon_1.png"),
-            [],
+            [
+                Load<AudioStreamWav>("res://Sounds/Guns/Gunshots/243 Rifle/243 Rifle C 002.wav")
+            ],
+            Load<AudioStreamWav>("res://Sounds/Guns/Ammo/Take Ammo C 002.wav"),
             new ProjectileStrategy(projectile: new Rocket(), projectileVelocity: 20f)
         ),
         [WeaponType.Shotgun] = new RWeapon(
@@ -87,6 +97,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
                 Load<AudioStreamWav>("res://Sounds/Guns/Gunshots/Dragonsbreath Shotgun/Dragonsbreath Shotgun A 002.wav"),
                 Load<AudioStreamWav>("res://Sounds/Guns/Gunshots/Dragonsbreath Shotgun/Dragonsbreath Shotgun A 003.wav"),
             ],
+            Load<AudioStreamWav>("res://Sounds/Guns/Ammo/Take Ammo C 002.wav"),
             new HitscanStrategy(shotCount: 10, spreadDegrees: 5.0f)
         ),
         [WeaponType.Solution] = new RWeapon(
@@ -101,6 +112,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             null,
             Utils.LoadTrimmed("res://Assets/Sprites/Icons/hand_grenade_icon_1.png"),
             [],
+            Load<AudioStreamWav>("res://Sounds/Guns/Ammo/Take Ammo C 002.wav"),
             new ProjectileStrategy(projectile: new Laser(), projectileVelocity: 5f)
         ),
         [WeaponType.None] = new RWeapon(
@@ -115,6 +127,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
             null,
             null,
             [],
+            null,
             new DefaultStrategy()
         )
     };

@@ -13,7 +13,8 @@ public partial class Rocket : Projectile {
     private bool _exploded;
     
     public override void _Ready() {
-        _collisionBox = GetNode<Area3D>("CollisionBox");
+        base._Ready();
+        _collisionBox = GetNode<Area3D>("Area3D");
         _collisionBox.BodyEntered += OnBodyEntered;
         _explosionBox = GetNode<Area3D>("ExplosionBox");
     }
@@ -36,16 +37,20 @@ public partial class Rocket : Projectile {
         
         _exploded = true;
         Velocity = Vector3.Zero;
-        
+
         EffectProvider.INSTANCE.SpawnEffectAt(EffectType.Explosion, GlobalPosition);
-        
+
         // Deal damage to overlapping bodies
         var bodies = _explosionBox.GetOverlappingBodies();
         foreach (var body in bodies) {
             if (body is IHittable hittable) hittable.Hit(Context.WEAPON.DAMAGE);
         }
 
-        // Remove the rocket
+        // Reparent audio so it survives the rocket being freed
+        OnHitAudio.Reparent(GetTree().Root);
+        OnHitAudio.Play();
+        OnHitAudio.Finished += OnHitAudio.QueueFree;
+
         QueueFree();
     }
 }

@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bhw4g7jnnwwvf"]
+[gd_scene load_steps=7 format=3 uid="uid://bhw4g7jnnwwvf"]
 
-[ext_resource type="Script" uid="uid://bcav1opxnwd56" path="res://Scripts/Objects/Projectiles/Rocket.cs" id="1_k6at0"]
+[ext_resource type="PackedScene" uid="uid://ij3dojbkgdcd" path="res://Scenes/Objects/Projectiles/projectile.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://bcav1opxnwd56" path="res://Scripts/Objects/Projectiles/Rocket.cs" id="2_script"]
+[ext_resource type="AudioStream" uid="uid://cgi4og3k8jpv4" path="res://Sounds/Explosives/Realistic/Rocket Impact 001.wav" id="3_miwc0"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_rocket"]
 top_radius = 0.05
@@ -10,25 +12,21 @@ height = 0.4
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rocket"]
 albedo_color = Color(0.1, 0.1, 0.1, 1)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_miwc0"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_jpm1x"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_explosion"]
 radius = 1.34637
 
-[node name="Rocket" type="Node3D"]
-script = ExtResource("1_k6at0")
+[node name="Rocket" instance=ExtResource("1_base")]
+script = ExtResource("2_script")
 
-[node name="RocketMesh" type="MeshInstance3D" parent="."]
+[node name="OnHitAudio" parent="." index="1"]
+stream = ExtResource("3_miwc0")
+
+[node name="RocketMesh" type="MeshInstance3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 0, 1, 0, -1, 0, 0, 0, 0)
 mesh = SubResource("CylinderMesh_rocket")
 surface_material_override/0 = SubResource("StandardMaterial3D_rocket")
 
-[node name="CollisionBox" type="Area3D" parent="."]
+[node name="ExplosionBox" type="Area3D" parent="." index="3"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CollisionBox"]
-shape = SubResource("SphereShape3D_miwc0")
-
-[node name="ExplosionBox" type="Area3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ExplosionBox"]
-shape = SubResource("SphereShape3D_jpm1x")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExplosionBox" index="0"]
+shape = SubResource("SphereShape3D_explosion")

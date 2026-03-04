@@ -16,7 +16,8 @@ public partial class Weapon : Node3D, IWeapon {
     private readonly Dictionary<WeaponType, MagazineFeed> _magazineFeeds = new ();
     private readonly Dictionary<WeaponType, AudioStreamRandomizer> _audioStreamRandomizers = new ();
     
-    private AudioStreamPlayer3D _audio;
+    private AudioStreamPlayer3D _useAudio;
+    private AudioStreamPlayer3D _equipAudio;
     private TextureRect _weaponRect;
     private TextureRect _onUseRect;
     private TextureRect _weaponIconRect;
@@ -28,9 +29,11 @@ public partial class Weapon : Node3D, IWeapon {
     private ColorRect _ammoBg;
     private FlashRed _iconFlash;
     private bool _hasUi;
+    private Tween _meleeTween;
 
     public override void _Ready() {
-        _audio = GetNode<AudioStreamPlayer3D>("AudioStreamPlayer3D");
+        _useAudio = GetNode<AudioStreamPlayer3D>("UseAudio");
+        _equipAudio = GetNode<AudioStreamPlayer3D>("EquipAudio");
         _cooldownTimer = GetNode<Timer>("CooldownTimer");
         _reloadTimer = GetNode<Timer>("ReloadTimer");
         _reloadTimer.Timeout += Reload;
@@ -65,6 +68,7 @@ public partial class Weapon : Node3D, IWeapon {
         _rWeapon = rWeapon;
         
         UpdateGunTexture();
+        UpdateEquipAudio();
         EnsureInitialized();
         UpdateCurrentMagazine(false);
         UpdateCooldown();
@@ -73,13 +77,18 @@ public partial class Weapon : Node3D, IWeapon {
     public bool Use(RAttackContext context) {
         var ammo = GetAmmo();
 
-        if (ammo > 0) {
+        if (!_rWeapon.RELOAD_ENABLED || ammo > 0) {
             if (_cooldownTimer.IsStopped()) {
+                _useAudio.Play();
                 _rWeapon.STRATEGY.Execute(context);
                 _cooldownTimer.Start();
                 if (_hasUi) {
-                    _onUseRectVisibilityTimer.Start();
-                    _onUseRect.Visible = true;
+                    if (_rWeapon.IS_MELEE) {
+                        PlayMeleeThrust();
+                    } else {
+                        _onUseRectVisibilityTimer.Start();
+                        _onUseRect.Visible = true;
+                    }
                 }
                 UpdateCurrentMagazine(true);
                 return true;
@@ -104,18 +113,16 @@ public partial class Weapon : Node3D, IWeapon {
 
     private void EnsureInitialized() {
         InitializeFeed(_rWeapon);
-
         if (!_audioStreamRandomizers.ContainsKey(_rWeapon.TYPE)) {
-            InitializeAudio();
+            InitializeOnUseAudio();
         }
-
-        _audio.Stream = _audioStreamRandomizers[_rWeapon.TYPE];
+        _useAudio.Stream = _audioStreamRandomizers[_rWeapon.TYPE];
     }
 
-    private void InitializeAudio() {
+    private void InitializeOnUseAudio() {
         var randomizer = new AudioStreamRandomizer();
-        for (var i = 0; i < _rWeapon.AUDIO_STREAMS.Length; i++) {
-            randomizer.AddStream(i, _rWeapon.AUDIO_STREAMS[i]);
+        for (var i = 0; i < _rWeapon.ON_USE_AUDIO_STREAMS.Length; i++) {
+            randomizer.AddStream(i, _rWeapon.ON_USE_AUDIO_STREAMS[i]);
         }
         _audioStreamRandomizers[_rWeapon.TYPE] = randomizer;
     }
@@ -161,11 +168,27 @@ public partial class Weapon : Node3D, IWeapon {
         _weaponIconRect.Texture = _rWeapon.ICON;
     }
 
+    private void UpdateEquipAudio() {
+        _equipAudio.Stream = _rWeapon.ON_EQUIP_STREAM;
+        _equipAudio.Play();
+    }
+
     private void UpdateAmmoLabel(int ammo, int magCount, bool visible) {
         if (!_hasUi) return;
         _ammoLabel.Visible = visible;
         _ammoBg.Visible = visible;
         _ammoLabel.Text = $"{ammo} / {magCount}";
+    }
+
+    private void PlayMeleeThrust() {
+        _meleeTween?.Kill();
+        var original = _weaponRect.Position;
+        var thrustTarget = original + new Vector2(0, -40);
+        _meleeTween = CreateTween();
+        _meleeTween.TweenProperty(_weaponRect, "position", thrustTarget, 0.08f)
+            .SetEase(Tween.EaseType.Out);
+        _meleeTween.TweenProperty(_weaponRect, "position", original, 0.12f)
+            .SetEase(Tween.EaseType.In);
     }
 
     private void UpdateCooldown() {

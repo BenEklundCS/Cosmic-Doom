@@ -19,7 +19,8 @@ public partial class PlasmaBall : Projectile {
     }
 
     public override void _Ready() {
-        _collisionBox = GetNode<Area3D>("CollisionBox");
+        base._Ready();
+        _collisionBox = GetNode<Area3D>("Area3D");
         _collisionBox.BodyEntered += OnBodyEntered;
         _mesh = GetNode<MeshInstance3D>("PlasmaMesh");
         _light = GetNode<OmniLight3D>("PlasmaLight");

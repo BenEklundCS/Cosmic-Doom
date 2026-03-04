@@ -29,7 +29,7 @@ public class HitscanStrategy(
 
             // Apply spawn offset in local space (relative to aim direction)
             var spawnTransform = ray.GlobalTransform;
-            var offsetWorld = spawnTransform.Basis * context.WEAPON.ShotOffset;
+            var offsetWorld = spawnTransform.Basis * context.WEAPON.SHOT_OFFSET_;
             spawnTransform.Origin += offsetWorld;
 
             ((Node3D)projectile).GlobalTransform = spawnTransform;
