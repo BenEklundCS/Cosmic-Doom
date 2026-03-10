@@ -79,6 +79,9 @@ Scripts/
 - [**Godot 4.4**](https://godotengine.org/download/) (.NET / C# version)
 - [**.NET 8 SDK**](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
+### Recommended IDE
+[**JetBrains Rider**](https://www.jetbrains.com/rider/) with the [Godot support plugin](https://plugins.jetbrains.com/plugin/13882-godot-support) is recommended for the best C# + Godot development experience.
+
 ### Installation
 
 1. **Clone the repository**
@@ -91,7 +94,7 @@ Scripts/
    Launch Godot 4.4 (.NET version) and import the `project.godot` file.
 
 3. **Build and run**
-   Press `F5` in the Godot editor or build via the .NET CLI:
+   Press `F5` in the Godot editor to run. You can also build the C# assembly independently via the .NET CLI (requires Godot to run):
    ```
    dotnet build
    ```
