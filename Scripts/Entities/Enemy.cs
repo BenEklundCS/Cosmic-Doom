@@ -163,6 +163,7 @@ public partial class Enemy : Character, IEnemyControllable {
     }
     
     private void OnAttackTimerTimeout() {
+        if (_state == EnemyState.Dying) return;
         SetState(_navigationAgent.IsNavigationFinished() ? EnemyState.Idle : EnemyState.Walking);
     }
 
@@ -179,6 +180,7 @@ public partial class Enemy : Character, IEnemyControllable {
     }
 
     private void OnTargetReached() {
+        if (_state == EnemyState.Dying) return;
         if (_state != EnemyState.Attacking)
             SetState(EnemyState.Idle);
         EmitSignalTargetReached();
