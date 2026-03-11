@@ -82,7 +82,7 @@ public partial class Player : Character, IControllable {
     
     public override void Hit(int damage) {
         _weapon.FlashIcon();
-        base.Hit(damage);
+        base.Hit(damage / 2);
     }
 
     public void Attack() {

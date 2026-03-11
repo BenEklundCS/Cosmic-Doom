@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7162diabe0kd"]
+[gd_scene load_steps=3 format=3 uid="uid://c7162diabe0kd"]
 
 [ext_resource type="Texture2D" uid="uid://4vlv3bvbyxmc" path="res://Assets/Sprites/Items/item_lamp.png" id="1_lamp"]
+[ext_resource type="Script" uid="uid://c4rvbkvq8dkuy" path="res://Scripts/Objects/Decor/Lamp.cs" id="2_lamp"]
 
 [node name="Lamp" type="Node3D"]
+script = ExtResource("2_lamp")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
@@ -14,9 +16,9 @@ texture = ExtResource("1_lamp")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-light_color = Color(1, 0.9, 0.7, 1)
-light_energy = 2.0
-light_indirect_energy = 0.5
+light_color = Color(1, 0.93, 0.75, 1)
+light_energy = 1.5
+light_indirect_energy = 0.6
 shadow_enabled = true
-omni_range = 8.0
-omni_attenuation = 1.5
+omni_range = 35.0
+omni_attenuation = 2.0

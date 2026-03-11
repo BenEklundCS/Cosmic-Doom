@@ -1,5 +1,6 @@
-[gd_scene load_steps=2313 format=3 uid="uid://bhq5qufg4vqxu"]
+[gd_scene load_steps=2314 format=3 uid="uid://bhq5qufg4vqxu"]
 
+[ext_resource type="Script" uid="uid://28vwsd13cbmo" path="res://Scripts/Levels/LevelOne.cs" id="1_1e11o"]
 [ext_resource type="Script" uid="uid://6nfjpsesf4vk" path="res://addons/cyclops_level_builder/nodes/cyclops_blocks.gd" id="1_u3h2l"]
 [ext_resource type="Script" uid="uid://c01ae41r4tkwg" path="res://addons/cyclops_level_builder/nodes/cyclops_block.gd" id="2_rjhlg"]
 [ext_resource type="Script" uid="uid://c3gtdoo30070q" path="res://addons/cyclops_level_builder/resources/data_vector_byte.gd" id="3_po0bw"]
@@ -23086,6 +23087,7 @@ face_vertex_data = {
 
 [node name="LevelOne" type="NavigationRegion3D"]
 navigation_mesh = SubResource("NavigationMesh_mlx1v")
+script = ExtResource("1_1e11o")
 
 [node name="Room1" type="Node3D" parent="."]
 
@@ -23180,6 +23182,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.33063, 0.930785, 1.67839)
 
 [node name="ColumnWithLamp" parent="Room1" instance=ExtResource("13_x8jfq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.38289, 0.78591, 14.2387)
+
+[node name="CeilingLight2" parent="Room1" instance=ExtResource("9_r3v4y")]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 8.81201, 4.78693, 8.04144)
+IntensityMultiplier = 0.2
+
+[node name="CeilingLight3" parent="Room1" instance=ExtResource("9_r3v4y")]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 15.4015, 3.13945, 8.06287)
+IntensityMultiplier = 0.2
+
+[node name="CeilingLight4" parent="Room1" instance=ExtResource("9_r3v4y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.1499, 4.93201, 16.8171)
+
+[node name="CeilingLight5" parent="Room1" instance=ExtResource("9_r3v4y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.2203, 4.93201, 16.8171)
+
+[node name="CeilingLight6" parent="Room1" instance=ExtResource("9_r3v4y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.1499, 4.93201, -0.505914)
+
+[node name="CeilingLight7" parent="Room1" instance=ExtResource("9_r3v4y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.2203, 4.93201, -0.505914)
+
+[node name="CeilingLight8" parent="Room1" instance=ExtResource("9_r3v4y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.3771, 4.93201, 8.17245)
 
 [node name="Room2" type="Node3D" parent="."]
 
@@ -23353,6 +23378,7 @@ script = ExtResource("2_rjhlg")
 
 [node name="Lamp" parent="Room2" instance=ExtResource("13_3ende")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34.3459, -0.0791888, -1.18761)
+script = null
 
 [node name="Crate" parent="Room2" instance=ExtResource("14_2w0vd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.3443, -1.00347, -0.518251)
@@ -23402,7 +23428,6 @@ transform = Transform3D(1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 48.7489,
 
 [node name="TriggerableDoor2" parent="Room2" instance=ExtResource("19_mewld")]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 37.9925, -1.02545, 20.2687)
-EnemyGroupName = &"door1group"
 
 [node name="Room3" type="Node3D" parent="."]
 
@@ -24331,7 +24356,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.9996, -8.04607, -44.8408)
 
 [node name="TriggerableDoor" parent="Room5" instance=ExtResource("19_mewld")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 38.9828, -8.00943, -44.2483)
-EnemyGroupName = &"door2group"
 
 [node name="AiPoints" type="Node" parent="."]
 
@@ -24371,39 +24395,53 @@ mesh_vector_data = SubResource("Resource_3t6c0")
 script = ExtResource("2_rjhlg")
 mesh_vector_data = SubResource("Resource_1s4m2")
 
-[node name="Door1Group" type="Node3D" parent="."]
+[node name="wave1group" type="Node3D" parent="."]
 
-[node name="Enemy5" parent="Door1Group" instance=ExtResource("21_diuf7")]
+[node name="Enemy5" parent="wave1group" instance=ExtResource("21_diuf7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.7091, 0.585062, 14.4429)
-CustomGroupName = &"door1group"
+CustomGroupName = &"wave1group"
 
-[node name="Enemy4" parent="Door1Group" instance=ExtResource("21_diuf7")]
+[node name="Enemy4" parent="wave1group" instance=ExtResource("21_diuf7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.9587, 0, 7.48072)
-CustomGroupName = &"door1group"
+CustomGroupName = &"wave1group"
 
-[node name="Enemy6" parent="Door1Group" instance=ExtResource("21_diuf7")]
+[node name="Enemy6" parent="wave1group" instance=ExtResource("21_diuf7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.9587, 0, -0.632607)
-CustomGroupName = &"door1group"
+CustomGroupName = &"wave1group"
 
 [node name="Door2Group" type="Node3D" parent="."]
 
 [node name="Enemy12" parent="Door2Group" instance=ExtResource("21_diuf7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.0739, -5.40542, -13.3992)
+DropsEnabled = false
 Type = 1
 CustomGroupName = &"door2group"
 
 [node name="Enemy11" parent="Door2Group" instance=ExtResource("21_diuf7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.0739, -5.40542, -28.9173)
+DropsEnabled = false
 Type = 1
 CustomGroupName = &"door2group"
 MoveRange = 2000.0
 
 [node name="Enemy10" parent="Door2Group" instance=ExtResource("21_diuf7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.2495, -5.40542, -11.846)
+DropsEnabled = false
 Type = 1
 CustomGroupName = &"door2group"
 
 [node name="Enemy9" parent="Door2Group" instance=ExtResource("21_diuf7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.2495, -5.40542, -23.852)
+DropsEnabled = false
 Type = 1
 CustomGroupName = &"door2group"
+
+[node name="StairwellGroup" type="Node3D" parent="."]
+
+[node name="Enemy" parent="StairwellGroup" instance=ExtResource("21_diuf7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.7749, 2.11838, 23.6948)
+Type = 1
+
+[node name="Enemy2" parent="StairwellGroup" instance=ExtResource("21_diuf7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.8828, -4.63186, 25.3946)
+Type = 1

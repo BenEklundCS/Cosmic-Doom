@@ -2,20 +2,18 @@
 
 [sub_resource type="Environment" id="Environment_p81qh"]
 background_mode = 1
-background_color = Color(0.02, 0.02, 0.03, 1)
+background_color = Color(0.01, 0.01, 0.02, 1)
 ambient_light_source = 1
-ambient_light_color = Color(0.08, 0.08, 0.12, 1)
-ambient_light_energy = 0.2
+ambient_light_color = Color(0.06, 0.06, 0.1, 1)
+ambient_light_energy = 0.04
 tonemap_mode = 2
-ssao_enabled = true
-ssao_radius = 2.0
 glow_enabled = true
-glow_intensity = 0.5
-glow_bloom = 0.1
+glow_intensity = 0.2
+glow_bloom = 0.03
 fog_enabled = true
-fog_light_color = Color(0.1, 0.1, 0.15, 1)
+fog_light_color = Color(0.0, 0.0, 0.0, 1)
 fog_light_energy = 0.0
-fog_density = 0.002
+fog_density = 0.5
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_6d8xn"]
 

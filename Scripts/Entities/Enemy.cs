@@ -16,12 +16,13 @@ public enum EnemyState { Idle, Walking, Attacking, Dying }
 public partial class Enemy : Character, IEnemyControllable {
     [Signal] public delegate void TargetReachedEventHandler();
     [Export] public bool Enabled = true;
+    [Export] public bool DropsEnabled = true;
     [Export] public EnemyType Type;
     [Export] public StringName CustomGroupName;
     [Export] public float MoveRange = 500.0f;
     [Export] public Vector2 MoveThinkingTimeRange = new (1.0f, 5.0f);
     [Export] public float AttackDuration = 0.08f;
-    [Export] public float ReactionTime = 1.0f;
+    [Export] public float ReactionTime = 0.33f;
     [Export] public float RememberTime = 3.0f;
     [Export] public float BobAmplitude = 0.06f;
     [Export] public float BobFrequency = 10.0f;
@@ -215,10 +216,11 @@ public partial class Enemy : Character, IEnemyControllable {
         if (_state == EnemyState.Dying) return;
         SetState(EnemyState.Dying);
         _onDeathSound.Play();
-        DropAmmo();
+        DropItems();
     }
 
-    private void DropAmmo() {
+    private void DropItems() {
+        if (!DropsEnabled) return;
         foreach (var type in _rEnemy.PICKUPS) {
             var shouldDrop = RandRange(0, 4) == 1;
             if (!shouldDrop) continue;
@@ -226,9 +228,9 @@ public partial class Enemy : Character, IEnemyControllable {
             pickup.Type = type;
             GetTree().Root.AddChild(pickup);
             var offset = new Vector3(
-                RandRange(-8, 8),
+                RandRange(-2, 2),
                 0,
-                RandRange(-8, 8)
+                RandRange(-2, 2)
             );
             pickup.GlobalPosition = GlobalPosition + offset;
         }

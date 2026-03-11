@@ -14,7 +14,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
         [WeaponType.Knife] = new RWeapon(
             WeaponType.Knife,
             PickupType.None,
-            25,
+            33,
             false,
             0,
             0,
@@ -33,7 +33,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
         [WeaponType.MachineGun] = new RWeapon(
             WeaponType.MachineGun,
             PickupType.Bullets,
-            10,
+            33,
             true,
             100,
             300,
@@ -48,7 +48,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
         [WeaponType.PlasmaGun] = new RWeapon(
             WeaponType.PlasmaGun,
             PickupType.Plasma,
-            10,
+            25,
             true,
             30,
             120,
@@ -67,7 +67,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
         [WeaponType.RocketLauncher] = new RWeapon(
             WeaponType.RocketLauncher,
             PickupType.Rockets,
-            75,
+            100,
             true,
             1,
             5,
@@ -84,7 +84,7 @@ public partial class WeaponRegistry : Node, IRegistry<WeaponType, RWeapon> {
         [WeaponType.Shotgun] = new RWeapon(
             WeaponType.Shotgun,
             PickupType.Bullets,
-            10,
+            8,
             true,
             8,
             32,
