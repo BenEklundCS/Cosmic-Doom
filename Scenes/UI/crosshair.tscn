@@ -1,0 +1,57 @@
+[gd_scene load_steps=0 format=3 uid="uid://dn07bxsk26gt3"]
+
+[node name="Crosshair" type="Control"]
+layout_mode = 3
+anchors_left = 0.5
+anchors_top = 0.5
+anchors_right = 0.5
+anchors_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+mouse_filter = 2
+
+[node name="TopLine" type="ColorRect" parent="."]
+anchors_left = 0.5
+anchors_top = 0.0
+anchors_right = 0.5
+anchors_bottom = 0.0
+offset_left = -1.0
+offset_top = 0.0
+offset_right = 1.0
+offset_bottom = 10.0
+color = Color(1, 1, 1, 1)
+
+[node name="BottomLine" type="ColorRect" parent="."]
+anchors_left = 0.5
+anchors_top = 1.0
+anchors_right = 0.5
+anchors_bottom = 1.0
+offset_left = -1.0
+offset_top = -10.0
+offset_right = 1.0
+offset_bottom = 0.0
+color = Color(1, 1, 1, 1)
+
+[node name="LeftLine" type="ColorRect" parent="."]
+anchors_left = 0.0
+anchors_top = 0.5
+anchors_right = 0.0
+anchors_bottom = 0.5
+offset_left = 0.0
+offset_top = -1.0
+offset_right = 10.0
+offset_bottom = 1.0
+color = Color(1, 1, 1, 1)
+
+[node name="RightLine" type="ColorRect" parent="."]
+anchors_left = 1.0
+anchors_top = 0.5
+anchors_right = 1.0
+anchors_bottom = 0.5
+offset_left = -10.0
+offset_top = -1.0
+offset_right = 0.0
+offset_bottom = 1.0
+color = Color(1, 1, 1, 1)

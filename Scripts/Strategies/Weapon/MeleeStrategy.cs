@@ -17,7 +17,7 @@ public class MeleeStrategy : IWeaponStrategy {
 
         if (collider is IHittable && collider is Character hittableCharacter) {
             if (attacker.GlobalPosition.DistanceTo(hittableCharacter.GlobalPosition) <= meleeRange) {
-                hittableCharacter.Hit(damage);
+                hittableCharacter.Hit(damage, attacker);
             }
         }
     }

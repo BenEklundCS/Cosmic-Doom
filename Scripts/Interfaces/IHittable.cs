@@ -6,5 +6,5 @@ public interface IHittable {
     [Signal]
     public delegate void OnDeathEventHandler();
 
-    public void Hit(int damage);
+    public void Hit(int damage, Node3D attacker = null);
 }

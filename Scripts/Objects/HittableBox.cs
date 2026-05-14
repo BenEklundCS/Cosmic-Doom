@@ -11,7 +11,7 @@ public partial class HittableBox : StaticBody3D, IHittable {
     private ShaderMaterial _shaderMaterial;
     [Export] public int HITS_TO_DESTROY { get; private set; } = 3;
 
-    public void Hit(int damage) {
+    public void Hit(int damage, Node3D attacker = null) {
         // max damage is 1 as HittableBox has a "hits to destroy" not health
         var hits = Math.Clamp(damage, 0, 1);
         HITS_TO_DESTROY -= hits;

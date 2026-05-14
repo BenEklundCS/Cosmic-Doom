@@ -43,7 +43,7 @@ public partial class Rocket : Projectile {
         // Deal damage to overlapping bodies
         var bodies = _explosionBox.GetOverlappingBodies();
         foreach (var body in bodies) {
-            if (body is IHittable hittable) hittable.Hit(Context.WEAPON.DAMAGE);
+            if (body is IHittable hittable) hittable.Hit(Context.WEAPON.DAMAGE, Context.ATTACKER);
         }
 
         // Reparent audio so it survives the rocket being freed

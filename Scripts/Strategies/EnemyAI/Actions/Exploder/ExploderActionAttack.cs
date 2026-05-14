@@ -21,7 +21,7 @@ public class ExploderActionAttack : IAction {
 
         // Deal damage to player
         if (node.NEAREST_PLAYER != null) {
-            node.NEAREST_PLAYER.Hit(EXPLOSION_DAMAGE);
+            node.NEAREST_PLAYER.Hit(EXPLOSION_DAMAGE, node);
         }
 
         // Spawn explosion VFX at Exploder position

@@ -45,14 +45,22 @@ public partial class Enemy : Character, IEnemyControllable {
     private float _bobTime = 0.0f;
     private float _spriteBaseY;
     private EnemyState _state = EnemyState.Idle;
+    private float _lastHitTime = -10f;
+    private float _lastDamageDealtTime = -10f;
+    private float _staggerTimer = 0f;
 
-    public float DISTANCE_TO_PLAYER => NEAREST_PLAYER != null 
-        ? GlobalPosition.DistanceTo(NEAREST_PLAYER.GlobalPosition) 
+    public bool IsStaggered => _staggerTimer > 0f;
+    public void SetStagger(float duration) => _staggerTimer = duration;
+
+    public float DISTANCE_TO_PLAYER => NEAREST_PLAYER != null
+        ? GlobalPosition.DistanceTo(NEAREST_PLAYER.GlobalPosition)
         : float.MaxValue;
     public Player NEAREST_PLAYER { get; private set; }
     public bool IS_MOVING => _state == EnemyState.Walking;
     public bool HAS_RECOGNIZED_PLAYER { get; private set; } = false;
     public float HEALTH_PERCENT => (float)HEALTH / MAX_HEALTH;
+    public float LastHitTime => _lastHitTime;
+    public float LastDamageDealtTime => _lastDamageDealtTime;
 
     public override void _Ready() {
         _rEnemy = EnemyRegistry.INSTANCE.Get(Type);
@@ -110,6 +118,8 @@ public partial class Enemy : Character, IEnemyControllable {
     }
 
     public override void _PhysicsProcess(double delta) {
+        _staggerTimer -= (float)delta;
+
         if (_navigationAgent == null) return;
         if (_navigationAgent.IsNavigationFinished()) {
             Velocity = new Vector3(0, Velocity.Y, 0);
@@ -125,7 +135,7 @@ public partial class Enemy : Character, IEnemyControllable {
         Velocity = new Vector3(direction.X * Speed, Velocity.Y, direction.Z * Speed);
 
         HandleBob(delta);
-        
+
         base._PhysicsProcess(delta);
     }
 
@@ -147,6 +157,7 @@ public partial class Enemy : Character, IEnemyControllable {
         );
 
         if (_weapon.Use(context) && _state != EnemyState.Attacking) {
+            _lastDamageDealtTime = (float)(Time.GetTicksMsec() / 1000.0);
             SetState(EnemyState.Attacking);
             _attackTimer.Start();
         }
@@ -156,11 +167,13 @@ public partial class Enemy : Character, IEnemyControllable {
         return CanSeePlayer() && HAS_RECOGNIZED_PLAYER && !_weapon.OnCooldown();
     }
 
-    public override void Hit(int damage) {
+    public override void Hit(int damage, Node3D attacker = null) {
         if (_state == EnemyState.Dying) return;
+        _lastHitTime = (float)(Time.GetTicksMsec() / 1000.0);
         _flashRed.Trigger();
         _onHitSound.Play();
-        base.Hit(damage);
+
+        base.Hit(damage, attacker);
     }
     
     private void OnAttackTimerTimeout() {

@@ -35,7 +35,7 @@ public class HitscanStrategy(
             ((Node3D)projectile).GlobalTransform = spawnTransform;
 
             var collider = ray.GetCollider();
-            if (collider is IHittable hittable) hittable.Hit(damage);
+            if (collider is IHittable hittable) hittable.Hit(damage, context.ATTACKER);
         }
 
         ray.GlobalTransform = originalGlobalTransform;

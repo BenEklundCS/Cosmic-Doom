@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://dif7wvkvbhwlv"]
+or[gd_scene load_steps=10 format=3 uid="uid://dif7wvkvbhwlv"]
 
 [ext_resource type="PackedScene" uid="uid://cvmlwrfowfoo3" path="res://Scenes/Entities/character.tscn" id="1_cvnsp"]
 [ext_resource type="Script" uid="uid://b3g840rg73343" path="res://Scripts/Entities/Player.cs" id="2_cvnsp"]
 [ext_resource type="PackedScene" uid="uid://bajkuqwah0f4a" path="res://Scenes/Objects/weapon.tscn" id="4_svftf"]
 [ext_resource type="PackedScene" uid="uid://cwqhywgy3s1l1" path="res://Scenes/Components/controller.tscn" id="5_ctrl"]
 [ext_resource type="PackedScene" uid="uid://bhtgn08xi3ek0" path="res://Scenes/UI/healthbar.tscn" id="6_hbar"]
+[ext_resource type="PackedScene" uid="uid://cde8y4y79z2khg1" path="res://Scenes/UI/crosshair.tscn" id="7_chdr"]
+[ext_resource type="Script" uid="uid://camshake01" path="res://Scripts/Components/CameraShake.cs" id="8_camshake"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1f0kj"]
 radius = 0.353765
@@ -18,6 +20,7 @@ HEALTH = 100
 ARMOR = 50
 
 [node name="Camera3D" type="Camera3D" parent="Head" index="1"]
+script = ExtResource("8_camshake")
 far = 10000.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
@@ -50,3 +53,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.327051, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PickupArea" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.272519, 0)
 shape = SubResource("SphereShape3D_svftf")
+
+[node name="HurtSound" type="AudioStreamPlayer3D" parent="." index="8"]
+bus = &"SFX"
+
+[node name="HurtOverlay" type="CanvasLayer" parent="." index="9"]
+layer = 100
+
+[node name="ColorRect" type="ColorRect" parent="HurtOverlay" index="0"]
+anchors_left = 0.0
+anchors_top = 0.0
+anchors_right = 1.0
+anchors_bottom = 1.0
+color = Color(1, 0, 0, 0)
+
+[node name="HUD" type="CanvasLayer" parent="." index="10"]
+layer = 50
+
+[node name="Crosshair" parent="HUD" index="0" instance=ExtResource("7_chdr")]

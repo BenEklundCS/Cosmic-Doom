@@ -16,7 +16,7 @@ public partial class Barrel : StaticBody3D, IHittable {
         _explosionBox = GetNode<Area3D>("Area3D");
     }
 
-    public void Hit(int damage) {
+    public void Hit(int damage, Node3D attacker = null) {
         Explode();
     }
 

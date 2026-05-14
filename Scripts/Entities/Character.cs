@@ -24,7 +24,7 @@ public abstract partial class Character : CharacterBody3D, IHittable {
     protected Node3D Head;
     protected RayCast3D Ray;
     
-    public virtual void Hit(int damage)
+    public virtual void Hit(int damage, Node3D attacker = null)
     {
         if (ARMOR > 0) {
             var armorRatio = (float)ARMOR / MAX_ARMOR; // Normalize armor to 0–1
@@ -38,11 +38,11 @@ public abstract partial class Character : CharacterBody3D, IHittable {
 
         HEALTH -= damage; // Apply the remaining damage directly to health
 
-        if (!(HEALTH <= 0)) return; 
+        if (!(HEALTH <= 0)) return;
         // dead
 
         Print($"{Name} died.");
-        EmitSignalOnDeath(); 
+        EmitSignalOnDeath();
     }
 
     public override void _Ready() {

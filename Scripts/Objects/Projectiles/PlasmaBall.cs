@@ -54,7 +54,7 @@ public partial class PlasmaBall : Projectile {
     private void Hit(Node3D body) {
         // Deal damage on hit
         if (body is IHittable hittable) {
-            hittable.Hit(Context.WEAPON.DAMAGE);
+            hittable.Hit(Context.WEAPON.DAMAGE, Context.ATTACKER);
         }
         QueueFree();
     }

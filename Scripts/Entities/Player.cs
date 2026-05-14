@@ -9,6 +9,7 @@ using Registry;
 using Godot;
 using Objects;
 using UI;
+using Components;
 
 
 public partial class Player : Character, IControllable {
@@ -23,28 +24,32 @@ public partial class Player : Character, IControllable {
     
     private int _weaponIndex;
     private readonly float _maxPitch = Mathf.DegToRad(85f);
-    private Camera3D _camera;
+    private CameraShake _camera;
     private Weapon _weapon;
     private HealthBar _healthBar;
     private HealthBar _armorBar;
     private Area3D _pickupArea;
-    
+    private AudioStreamPlayer3D _hurtSound;
+    private ColorRect _hurtOverlay;
+
     [Export] public float MouseSensitivity = 0.005f;
 
     public override void _Ready() {
         _weapon = GetNode<Weapon>("Weapon");
-        _camera = GetNode<Camera3D>("Head/Camera3D");
+        _camera = GetNode<CameraShake>("Head/Camera3D");
         _healthBar = GetNode<HealthBar>("HealthBar");
         _armorBar = GetNode<HealthBar>("ArmorBar");
         _pickupArea = GetNode<Area3D>("PickupArea");
         _pickupArea.BodyEntered += OnBodyEnteredPickupArea;
-        
+        _hurtSound = GetNode<AudioStreamPlayer3D>("HurtSound");
+        _hurtOverlay = GetNode<ColorRect>("HurtOverlay/ColorRect");
+
         ReadyWeapons();
-        
+
         AddToGroup("players");
 
         OnDeath += OnSelfDeath;
-        
+
         base._Ready();
     }
 
@@ -80,9 +85,31 @@ public partial class Player : Character, IControllable {
         Head.Rotation = new Vector3(clampedX, Head.Rotation.Y, Head.Rotation.Z);
     }
     
-    public override void Hit(int damage) {
+    public override void Hit(int damage, Node3D attacker = null) {
         _weapon.FlashIcon();
-        base.Hit(damage / 2);
+
+        // Play hurt sound
+        if (_hurtSound != null) {
+            _hurtSound.Play();
+        }
+
+        // Flash screen overlay red
+        if (_hurtOverlay != null) {
+            var color = _hurtOverlay.Color;
+            color.A = 0.4f;
+            _hurtOverlay.Color = color;
+
+            var tween = _hurtOverlay.CreateTween();
+            tween.SetTrans(Tween.TransitionType.Linear);
+            tween.TweenProperty(_hurtOverlay, "color:a", 0f, 0.3);
+        }
+
+        // Camera shake on impact
+        if (_camera != null) {
+            _camera.Shake(0.2f, 0.3f);
+        }
+
+        base.Hit(damage / 2, attacker);
     }
 
     public void Attack() {
