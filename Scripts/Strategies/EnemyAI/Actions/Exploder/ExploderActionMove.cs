@@ -7,20 +7,17 @@ using Interfaces;
 using Entities;
 
 public class ExploderActionMove : IAction {
-    private float _moveTimer = 2.0f;
     public float Score(IEnemyControllable enemy) {
-        return 0.7f;
+        if (enemy is not Enemy node) return 0.0f;
+        return node.HAS_RECOGNIZED_PLAYER ? 0.9f : 0.0f;
     }
 
     public void Execute(IEnemyControllable enemy, double delta) {
         if (enemy is not Enemy node) return;
 
-        _moveTimer -= (float)delta;
-
-        if (_moveTimer <= 0.0f) {
-            var moveTargetPos = AiUtils.GetMovePositionWherePlayerVisible(node);
-            enemy.MoveTo(moveTargetPos);
-            _moveTimer = Utils.INSTANCE.NextFloat(node.MoveThinkingTimeRange);
+        // Relentless advance toward player to detonate
+        if (node.NEAREST_PLAYER != null) {
+            enemy.MoveTo(node.NEAREST_PLAYER.GlobalPosition);
         }
     }
 }

@@ -13,6 +13,7 @@ public enum EnemyType {
     Exploder,
     PlasmaBot,
     Warrior,
+    Boss,
 }
 
 public record REnemy(

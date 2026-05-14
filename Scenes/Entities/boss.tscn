@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://qiocpu5edqom"]
+
+[ext_resource type="PackedScene" uid="uid://cvmlwrfowfoo3" path="res://Scenes/Entities/character.tscn" id="1_o6kgl"]
+[ext_resource type="Script" uid="uid://c1k48h1api7tr" path="res://Scripts/Entities/Enemy.cs" id="2_ge2ll"]
+[ext_resource type="PackedScene" uid="uid://bajkuqwah0f4a" path="res://Scenes/Objects/weapon.tscn" id="4_ygq1y"]
+[ext_resource type="Script" uid="uid://begcxsyljp0gk" path="res://Scripts/Components/FlashRed.cs" id="5_flash"]
+[ext_resource type="PackedScene" uid="uid://dmt6bb2w3t8yw" path="res://Scenes/Components/ai_controller.tscn" id="6_aictl"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ge2ll"]
+radius = 0.218217
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ygq1y"]
+
+[node name="Boss" instance=ExtResource("1_o6kgl")]
+script = ExtResource("2_ge2ll")
+Type = 7
+HEALTH = 60
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(3.4858, -0.0306287, 0, 0.0925574, 1.1535, 0, 0, 0, 3.57844, 0, 1.1896, 0)
+shape = SubResource("CapsuleShape3D_ge2ll")
+
+[node name="Weapon" parent="." index="2" instance=ExtResource("4_ygq1y")]
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." index="3"]
+
+[node name="FlashRed" type="Node" parent="." index="4"]
+script = ExtResource("5_flash")
+Target = NodePath("../AnimatedSprite3D")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="." index="5"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -0.000751138, 1.14809, -0.000844598)
+billboard = 2
+render_priority = 1
+sprite_frames = SubResource("SpriteFrames_ygq1y")
+
+[node name="AttackTimer" type="Timer" parent="." index="6"]
+one_shot = true
+
+[node name="AiController" parent="." index="7" instance=ExtResource("6_aictl")]
+
+[node name="ReactionTimer" type="Timer" parent="." index="9"]
+one_shot = true
+
+[node name="RememberTimer" type="Timer" parent="." index="10"]
+wait_time = 3.0
+
+[node name="OnHitSound" type="AudioStreamPlayer3D" parent="." index="11"]
+
+[node name="OnDeathSound" type="AudioStreamPlayer3D" parent="." index="12"]
+
+[node name="OnRecognitionSound" type="AudioStreamPlayer3D" parent="." index="13"]

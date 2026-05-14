@@ -24409,6 +24409,14 @@ CustomGroupName = &"wave1group"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.9587, 0, -0.632607)
 CustomGroupName = &"wave1group"
 
+[node name="Enemy" parent="wave1group" instance=ExtResource("21_diuf7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.0063, 2.01402, 1.95162)
+Type = 6
+
+[node name="Enemy2" parent="wave1group" instance=ExtResource("21_diuf7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.4736, 1.76324, 10.3463)
+Type = 7
+
 [node name="Door2Group" type="Node3D" parent="."]
 
 [node name="Enemy12" parent="Door2Group" instance=ExtResource("21_diuf7")]

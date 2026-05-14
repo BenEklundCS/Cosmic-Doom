@@ -1,3 +1,14 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+*.import
+
+# C# / .NET
+bin/
+obj/
+
+# IDE / Editor
+.idea/
+.claude/
+*.sln.DotSettings.user
+cyclops_settings.config

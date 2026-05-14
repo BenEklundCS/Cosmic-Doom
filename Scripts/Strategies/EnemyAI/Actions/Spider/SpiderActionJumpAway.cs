@@ -22,6 +22,10 @@ public class SpiderActionJumpAway : IAction {
         if (enemy is not Enemy node) return;
         var moveTargetPos = AiUtils.GetMovePositionWhereHidden(node);
         node.MoveTo(moveTargetPos);
+
+        // Apply jump velocity upward (in addition to horizontal movement from MoveTo)
+        node.Velocity = new Vector3(node.Velocity.X, node.JumpSpeed * 2f, node.Velocity.Z);
+
         node.TargetReached += OnTargetReached;
         _inPanic = true;
     }

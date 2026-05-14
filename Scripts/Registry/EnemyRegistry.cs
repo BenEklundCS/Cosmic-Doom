@@ -1,4 +1,5 @@
 using CosmicDoom.Scripts.Strategies.EnemyAI.Actions;
+using CosmicDoom.Scripts.Strategies.EnemyAI.Actions.Boss;
 using CosmicDoom.Scripts.Strategies.EnemyAI.Actions.Destroyer;
 using CosmicDoom.Scripts.Strategies.EnemyAI.Actions.Ender;
 using CosmicDoom.Scripts.Strategies.EnemyAI.Actions.Exploder;
@@ -131,6 +132,23 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
             null,
             null,
             null
+        ),
+        [EnemyType.Boss] = new REnemy(
+            EnemyType.Boss,
+            GetSpriteFrames(EnemyType.Boss),
+            () => {
+                return new UtilityAiStrategy(
+                    new IBackgroundAction[] { new FacePlayer() },
+                    new BossActionCharge(),
+                    new BossActionRangedAttack(),
+                    new BossActionMove()
+                );
+            },
+            WeaponType.PlasmaGun,
+            [PickupType.Plasma, PickupType.Armor, PickupType.Health],
+            Load<AudioStreamWav>("res://Sounds/Guns/Bullet/Bullet Hit Heavy Armor 001.wav"),
+            Load<AudioStreamWav>("res://Sounds/Enemies/Sci-Fi/Robotic/Robotic Frustration.wav"),
+            Load<AudioStreamWav>("res://Sounds/Enemies/Sci-Fi/Robotic/Robotic Surprise.wav")
         )
     };
 
@@ -155,7 +173,8 @@ public partial class EnemyRegistry : Node, IRegistry<EnemyType, REnemy> {
         spriteFrames.AddAnimation("walk");
         spriteFrames.AddAnimation("attack");
 
-        var enemyName = enemyType.ToString().ToLower();
+        // Boss uses Destroyer sprites (no dedicated boss sprite assets)
+        var enemyName = enemyType == EnemyType.Boss ? "destroyer" : enemyType.ToString().ToLower();
 
         var monstersPath = "res://Assets/Sprites/Monsters";
 
