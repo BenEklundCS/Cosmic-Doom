@@ -51,8 +51,44 @@ public partial class OptionsPanel : PanelContainer {
         _config.Save(ConfigPath);
     }
 
+    private bool _didPause;
+
+    private Control _container;
+
+    public void ShowPanel() {
+        _container ??= GetParent<Control>();
+        _container.Visible = true;
+        if (!GetTree().Paused) {
+            GetTree().Paused = true;
+            _didPause = true;
+        }
+    }
+
+    public void ClosePanel() {
+        _container ??= GetParent<Control>();
+        _container.Visible = false;
+        if (_didPause) {
+            GetTree().Paused = false;
+            _didPause = false;
+        }
+    }
+
+    public override void _Input(InputEvent @event) {
+        if (_container == null || !_container.Visible) return;
+
+        if (@event.IsActionPressed("ui_cancel")) {
+            ClosePanel();
+            GetViewport().SetInputAsHandled();
+        } else if (@event is InputEventMouseButton mb && mb.Pressed && mb.ButtonIndex == MouseButton.Left) {
+            if (!GetGlobalRect().HasPoint(mb.GlobalPosition)) {
+                ClosePanel();
+                GetViewport().SetInputAsHandled();
+            }
+        }
+    }
+
     public void OnClosePressed() {
-        Visible = false;
+        ClosePanel();
     }
 
     private void ApplyVolumeSettings(float master, float sfx, float music) {

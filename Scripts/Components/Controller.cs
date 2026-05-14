@@ -42,11 +42,6 @@ public partial class Controller : Node {
             return;
         }
 
-        if (@event.IsActionPressed("escape")) {
-            Input.MouseMode = Input.MouseModeEnum.Visible;
-            return;
-        }
-
         if (!IS_ACTIVE) return;
 
         if (@event.IsActionPressed("jump")) _controlTarget?.Jump();

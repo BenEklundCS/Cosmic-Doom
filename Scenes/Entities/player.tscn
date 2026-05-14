@@ -1,4 +1,4 @@
-or[gd_scene load_steps=10 format=3 uid="uid://dif7wvkvbhwlv"]
+[gd_scene load_steps=10 format=3 uid="uid://dif7wvkvbhwlv"]
 
 [ext_resource type="PackedScene" uid="uid://cvmlwrfowfoo3" path="res://Scenes/Entities/character.tscn" id="1_cvnsp"]
 [ext_resource type="Script" uid="uid://b3g840rg73343" path="res://Scripts/Entities/Player.cs" id="2_cvnsp"]

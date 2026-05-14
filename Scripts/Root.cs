@@ -1,5 +1,6 @@
 using System;
 using CosmicDoom.Scripts.Entities;
+using CosmicDoom.Scripts.UI;
 using Godot;
 using static Godot.GD;
 
@@ -11,7 +12,8 @@ public partial class Root : Node3D {
     private Player _player;
     private Transform3D _playerSpawn;
     private float _lowestY;
-    
+    private PauseMenu _pauseMenu;
+
     public override void _Ready() {
         _respawnTimer = GetNode<Timer>("RespawnTimer");
         _respawnTimer.Timeout += OnRespawnTimerTimeout;
@@ -19,6 +21,14 @@ public partial class Root : Node3D {
         _playerSpawn = _player.GlobalTransform;
         _player.OnDeath += OnPlayerDeath;
         _lowestY = GetLowestYLevel();
+        _pauseMenu = GetNode<PauseMenu>("PauseMenu");
+    }
+
+    public override void _UnhandledInput(InputEvent @event) {
+        if (@event.IsActionPressed("escape")) {
+            _pauseMenu.Show();
+            GetViewport().SetInputAsHandled();
+        }
     }
 
     public override void _Process(double delta) {
