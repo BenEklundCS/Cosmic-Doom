@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cyuphlo30bnqy"]
 
 [ext_resource type="Script" uid="uid://b7hgmsa15833o" path="res://Scripts/UI/MainMenu.cs" id="1_mainmenu"]
-[ext_resource type="PackedScene" path="res://Scenes/UI/OptionsPanel.tscn" id="2_options"]
+[ext_resource type="PackedScene" uid="uid://bo0nlqgxvktap" path="res://Scenes/UI/OptionsPanel.tscn" id="2_options"]
 
 [node name="MainMenu" type="CanvasLayer"]
 script = ExtResource("1_mainmenu")

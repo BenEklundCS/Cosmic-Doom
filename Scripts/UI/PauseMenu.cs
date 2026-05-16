@@ -39,7 +39,8 @@ public partial class PauseMenu : CanvasLayer {
 	}
 
 	public void OnQuitPressed() {
-		Hide();
+		GetTree().Paused = false;
+		Input.MouseMode = Input.MouseModeEnum.Visible;
 		GetTree().ChangeSceneToFile("res://Scenes/UI/MainMenu.tscn");
 	}
 }

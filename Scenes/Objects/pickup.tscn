@@ -6,6 +6,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_pjfvu"]
 
 [node name="Pickup" type="CharacterBody3D"]
+collision_layer = 2
 script = ExtResource("1_pjfvu")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]

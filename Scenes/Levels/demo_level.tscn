@@ -1,0 +1,190 @@
+[gd_scene load_steps=13 format=3 uid="uid://gttxl8qjt83d"]
+
+[ext_resource type="Script" uid="uid://e878l0x3lelx" path="res://Scripts/Levels/DemoLevel.cs" id="1_demo"]
+[ext_resource type="PackedScene" uid="uid://cqc52y3m8xp1" path="res://Scenes/Entities/enemy.tscn" id="2_enemy"]
+[ext_resource type="PackedScene" uid="uid://dt2i4d4jfkgv4" path="res://Scenes/Components/point.tscn" id="3_point"]
+
+[sub_resource type="NavigationMesh" id="NavMesh_arena"]
+vertices = PackedVector3Array(-14.5, 6.5, -14.5, -14.5, 6.5, 14.75, 14.75, 6.5, 14.75, 14.75, 6.5, -14.5, -14.25, 0.5, -14.25, -14.25, 0.5, 14.5, 14.5, 0.5, 14.5, 14.5, 0.5, -14.25)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(7, 6, 4), PackedInt32Array(4, 6, 5)]
+
+[sub_resource type="BoxMesh" id="BoxMesh_flat"]
+size = Vector3(30, 0.5, 30)
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.12, 0.12, 0.15, 1)
+roughness = 0.95
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_flat"]
+size = Vector3(30, 0.5, 30)
+
+[sub_resource type="StandardMaterial3D" id="Mat_wall"]
+albedo_color = Color(0.2, 0.2, 0.25, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_wallNS"]
+size = Vector3(30, 5.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallNS"]
+size = Vector3(30, 5.5, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wallEW"]
+size = Vector3(0.5, 5.5, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wallEW"]
+size = Vector3(0.5, 5.5, 30)
+
+[node name="DemoLevel" type="NavigationRegion3D"]
+navigation_mesh = SubResource("NavMesh_arena")
+script = ExtResource("1_demo")
+
+[node name="Arena" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Arena/Floor"]
+mesh = SubResource("BoxMesh_flat")
+surface_material_override/0 = SubResource("Mat_floor")
+
+[node name="FloorShape" type="CollisionShape3D" parent="Arena/Floor"]
+shape = SubResource("BoxShape3D_flat")
+
+[node name="Ceiling" type="StaticBody3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.75, 0)
+
+[node name="CeilMesh" type="MeshInstance3D" parent="Arena/Ceiling"]
+mesh = SubResource("BoxMesh_flat")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="CeilShape" type="CollisionShape3D" parent="Arena/Ceiling"]
+shape = SubResource("BoxShape3D_flat")
+
+[node name="WallN" type="StaticBody3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -15.25)
+
+[node name="WallNMesh" type="MeshInstance3D" parent="Arena/WallN"]
+mesh = SubResource("BoxMesh_wallNS")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="WallNShape" type="CollisionShape3D" parent="Arena/WallN"]
+shape = SubResource("BoxShape3D_wallNS")
+
+[node name="WallS" type="StaticBody3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 15.25)
+
+[node name="WallSMesh" type="MeshInstance3D" parent="Arena/WallS"]
+mesh = SubResource("BoxMesh_wallNS")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="WallSShape" type="CollisionShape3D" parent="Arena/WallS"]
+shape = SubResource("BoxShape3D_wallNS")
+
+[node name="WallE" type="StaticBody3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.25, 2.5, 0)
+
+[node name="WallEMesh" type="MeshInstance3D" parent="Arena/WallE"]
+mesh = SubResource("BoxMesh_wallEW")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="WallEShape" type="CollisionShape3D" parent="Arena/WallE"]
+shape = SubResource("BoxShape3D_wallEW")
+
+[node name="WallW" type="StaticBody3D" parent="Arena"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.25, 2.5, 0)
+
+[node name="WallWMesh" type="MeshInstance3D" parent="Arena/WallW"]
+mesh = SubResource("BoxMesh_wallEW")
+surface_material_override/0 = SubResource("Mat_wall")
+
+[node name="WallWShape" type="CollisionShape3D" parent="Arena/WallW"]
+shape = SubResource("BoxShape3D_wallEW")
+
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="Light1" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 5, -8)
+light_energy = 3.0
+omni_range = 22.0
+
+[node name="Light2" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 5, -8)
+light_energy = 3.0
+omni_range = 22.0
+
+[node name="Light3" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 5, 8)
+light_energy = 3.0
+omni_range = 22.0
+
+[node name="Light4" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 5, 8)
+light_energy = 3.0
+omni_range = 22.0
+
+[node name="Points" type="Node3D" parent="."]
+
+[node name="P1" parent="Points" instance=ExtResource("3_point")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -10)
+
+[node name="P2" parent="Points" instance=ExtResource("3_point")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+
+[node name="P3" parent="Points" instance=ExtResource("3_point")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -10)
+
+[node name="P4" parent="Points" instance=ExtResource("3_point")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 0)
+
+[node name="P5" parent="Points" instance=ExtResource("3_point")]
+
+[node name="P6" parent="Points" instance=ExtResource("3_point")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
+
+[node name="P7" parent="Points" instance=ExtResource("3_point")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 10)
+
+[node name="P8" parent="Points" instance=ExtResource("3_point")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="P9" parent="Points" instance=ExtResource("3_point")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 10)
+
+[node name="P10" parent="Points" instance=ExtResource("3_point")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -5)
+
+[node name="P11" parent="Points" instance=ExtResource("3_point")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -5)
+
+[node name="P12" parent="Points" instance=ExtResource("3_point")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 5)
+
+[node name="P13" parent="Points" instance=ExtResource("3_point")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5)
+
+[node name="Wave1" type="Node3D" parent="."]
+
+[node name="Ender1" parent="Wave1" instance=ExtResource("2_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -11)
+Type = 3
+CustomGroupName = &"demo_wave1"
+
+[node name="Ender2" parent="Wave1" instance=ExtResource("2_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -11)
+Type = 3
+CustomGroupName = &"demo_wave1"
+
+[node name="Spider1" parent="Wave1" instance=ExtResource("2_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -5)
+Type = 2
+CustomGroupName = &"demo_wave1"
+
+[node name="Spider2" parent="Wave1" instance=ExtResource("2_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -5)
+Type = 2
+CustomGroupName = &"demo_wave1"
+
+[node name="PlasmaBot1" parent="Wave1" instance=ExtResource("2_enemy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13)
+Type = 5
+CustomGroupName = &"demo_wave1"

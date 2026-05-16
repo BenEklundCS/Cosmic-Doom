@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://csbrlwrxv12c1" path="res://Scripts/Root.cs" id="1_8pvmw"]
 [ext_resource type="PackedScene" uid="uid://bhdhjpb222xe2" path="res://Scenes/debug.tscn" id="3_vnucn"]
 [ext_resource type="PackedScene" uid="uid://dif7wvkvbhwlv" path="res://Scenes/Entities/player.tscn" id="5_4g5cr"]
-[ext_resource type="PackedScene" uid="uid://bhq5qufg4vqxu" path="res://Scenes/Levels/level_one.tscn" id="7_dun2r"]
+[ext_resource type="PackedScene" uid="uid://gttxl8qjt83d" path="res://Scenes/Levels/demo_level.tscn" id="7_dun2r"]
 [ext_resource type="PackedScene" uid="uid://bmt1v1nvk75dl" path="res://Scenes/UI/PauseMenu.tscn" id="9_pause"]
 
 [sub_resource type="Environment" id="Environment_root"]
@@ -34,9 +34,9 @@ camera_attributes = SubResource("CameraAttributes_root")
 DebugPath = NodePath("")
 
 [node name="Player" parent="." instance=ExtResource("5_4g5cr")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -2.13379, 1.58889, 8.02434)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 5)
 
-[node name="LevelOne" parent="." instance=ExtResource("7_dun2r")]
+[node name="DemoLevel" parent="." instance=ExtResource("7_dun2r")]
 
 [node name="PauseMenu" parent="." instance=ExtResource("9_pause")]
 

@@ -12,6 +12,5 @@ public interface IEnemyControllable {
     public Player NEAREST_PLAYER { get; }
     public void MoveTo(Vector3 position);
     public void FaceTarget(Vector3 position);
-    public void Attack();
     public bool CanAttack();
 }
